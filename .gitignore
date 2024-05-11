@@ -5,9 +5,6 @@
 /dist
 /env
 
-#Ignoramos tambien el front para el primer commit
-/frontend
-
 # Archivos de compilación o generados
 *.pyc
 *.pyo
