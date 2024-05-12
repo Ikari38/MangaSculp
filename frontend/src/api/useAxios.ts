@@ -1,13 +1,11 @@
 import axios, { AxiosRequestHeaders } from "axios";
 import { useAuthStore } from "../store/auth";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 function logOutFunc(){
     useAuthStore.getState().logout()
     window.location.href = '/login'
-
 }
-
 
 const baseURL = import.meta.env.VITE_BACKEND_URL
 
@@ -16,7 +14,6 @@ console.log(import.meta.env.VITE_BACKEND_URL)
 export const axio = axios.create({
     baseURL
 })
-
 
 export const authAxios = axios.create({
     baseURL,
@@ -33,7 +30,7 @@ authAxios.interceptors.request.use(async (config) => {
         exp: number
     }
 
-    const tokenDecoded : Token = jwt_decode(token);
+    const tokenDecoded : Token = jwtDecode(token);
 
     const expiration = new Date(tokenDecoded.exp * 1000);
     const now = new Date();
@@ -45,10 +42,10 @@ authAxios.interceptors.request.use(async (config) => {
             useAuthStore.getState().setToken(res.data.access, res.data.refresh)
         // Me cargo en linter para la siguiente linea para que no tire error con el tipo any
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
-            if (err.response.status == 401) {
+        } catch (err) {
+                console.log(err)
                 logOutFunc()
-            }
         }
         return config;
-});
+    });
+    
