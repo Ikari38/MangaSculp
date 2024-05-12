@@ -6,5 +6,6 @@ export const registerRequest = async (email: string, name: string, last_name: st
 }
 
 export const loginRequest = async (email: string, password: string) => {
-    await axio.post("/users/login/", {email,  password})
+    const response = await axio.post("/users/login/", {email,  password})
+    return response;
 }

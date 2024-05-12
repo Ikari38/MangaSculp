@@ -56,57 +56,57 @@ const RegisterPage = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-[800px] lg:py-0">
+        <section className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-[800px] lg:py-0">
         <Link to="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
             <img className="w-8 h-8 mr-2" src={Logo} alt="logo"/>
-            <span>Shop Zone</span>
+            <span>MangaSculp</span>
         </Link>
-        <div className="w-full md:w-[400px] lg:w-[500px] bg-slate-300 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <section className="w-full md:w-[400px] lg:w-[500px] bg-slate-300 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <section className="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Crear cuenta nueva 
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
 
-                <div>
+                <section>
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo</label>
                     <input 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="nombre@gmail.com"/>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
                     <input 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     type="name" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="nombre"/>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido</label>
                     <input 
                     value={last_name}
                     onChange={(e) => setLastName(e.target.value)}
                     type="last_name" name="last_name" id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="apellido"/>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
                     <input 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <label htmlFor="re-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirmar Contraseña</label>
                     <input 
                     value={re_password}
                     onChange={(e) => setRePassword(e.target.value)}
                     type="password" name="re_password" id="re_password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                </div>
+                </section>
 
                 { handleMatch() ? false :
                 <p className="text-sm font-medium text-red-500">Las contraseñas tienen que coincidir</p>
@@ -117,9 +117,9 @@ const RegisterPage = () => {
                 </p>
 
             </form>
-            </div>
-            </div>
-        </div>
+            </section>
+            </section>
+        </section>
     )
 }
 
