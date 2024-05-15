@@ -11,13 +11,20 @@ const HomePage = () => {
 
     const { ref, inView } = useInView()
 
-    const { data, isLoading, error, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery(
-        ['product'],
-        get_products,
-        {
-            getNextPageParam: (page) => page.meta.next
-        }
-    );
+    const { 
+        data,
+        isLoading, 
+        error, 
+        isFetchingNextPage, 
+        fetchNextPage, 
+        hasNextPage, 
+    } = useInfiniteQuery({
+        queryKey: ['products'], 
+        queryFn: get_products,
+        
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            getNextPageParam: (page: any) => page.meta.next
+    });
 
     useEffect(() => {
         if (inView) {
@@ -31,6 +38,7 @@ const HomePage = () => {
 
     return (
         <>
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {data?.pages.map((page: any) => (
                 <>
                     <section className="flex justify-center">
@@ -42,6 +50,7 @@ const HomePage = () => {
                                 <ProductCard
                                     key={product.id}
                                     product={product}
+                                    page={"home"}
                                 />
                             ))}
                         </section>
