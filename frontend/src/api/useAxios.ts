@@ -1,6 +1,7 @@
 import axios, { AxiosRequestHeaders } from "axios";
 import { useAuthStore } from "../store/auth";
 import { jwtDecode } from "jwt-decode";
+import { Token } from "../Interfaces";
 
 function logOutFunc(){
     useAuthStore.getState().logout()
@@ -26,10 +27,6 @@ authAxios.interceptors.request.use(async (config) => {
         Authorization: `Bearer ${token}`,
     } as AxiosRequestHeaders
 
-    type Token = {
-        exp: number
-    }
-
     const tokenDecoded : Token = jwtDecode(token);
 
     const expiration = new Date(tokenDecoded.exp * 1000);
@@ -41,7 +38,6 @@ authAxios.interceptors.request.use(async (config) => {
             const res = await axio.post('/users/refresh', {refresh: useAuthStore.getState().refresh})
             useAuthStore.getState().setToken(res.data.access, res.data.refresh)
         // Me cargo en linter para la siguiente linea para que no tire error con el tipo any
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err) {
                 console.log(err)
                 logOutFunc()
