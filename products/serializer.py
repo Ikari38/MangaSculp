@@ -1,4 +1,3 @@
-from django.db.models import F
 from rest_framework import serializers
 from . models import Product, Reviews
 

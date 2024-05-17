@@ -30,8 +30,8 @@ def create_product(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     else:
-        return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)
-    
+        return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
+
     
 @api_view(['PUT'])
 def edit_product(request, pk):

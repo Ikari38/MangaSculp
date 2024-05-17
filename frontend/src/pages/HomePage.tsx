@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
+import React from "react";
 
 
 const HomePage = () => {
@@ -21,9 +22,9 @@ const HomePage = () => {
     } = useInfiniteQuery({
         queryKey: ['products'], 
         queryFn: get_products,
-        
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            getNextPageParam: (page: any) => page.meta.next
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getNextPageParam: (page: any) => page.meta.next,
+        initialPageParam:1
     });
 
     useEffect(() => {
@@ -40,7 +41,7 @@ const HomePage = () => {
         <>
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {data?.pages.map((page: any) => (
-                <>
+                <React.Fragment key="main">
                     <section className="flex justify-center">
                         <section
                             key={page.meta.next}
@@ -57,7 +58,7 @@ const HomePage = () => {
                     </section>
 
                     {!isLoading && data?.pages.length === 0 && (
-                        <p className="text-xl text-slate-800 dark:text-slate-200">
+                        <p key="no_results" className="text-xl text-slate-800 dark:text-slate-200">
                             No hay mas resultados
                         </p>
                     )}
@@ -65,13 +66,13 @@ const HomePage = () => {
                         data?.pages?.length !== undefined &&
                         data.pages.length > 0 &&
                         hasNextPage && (
-                            <section ref={ref}>
+                            <section key="loading_key" ref={ref}>
                                 {isLoading || isFetchingNextPage ? (
                                     <p>Cargando...</p>
                                 ) : null}
                             </section>
                         )}
-                </>
+                </React.Fragment>
             ))}
         </>
     );

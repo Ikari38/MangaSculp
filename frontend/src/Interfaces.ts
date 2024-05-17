@@ -12,5 +12,6 @@ export interface Product {
 }
 
 export interface Token {
-    exp: number
+    exp: number;
+    is_staff: boolean;
 }
