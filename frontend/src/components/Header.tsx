@@ -25,7 +25,6 @@ const Header = () => {
 
     if (isAuth) {
         const tokenDecoded: Token = jwtDecode(token)
-        console.log(tokenDecoded)
         // eslint-disable-next-line no-var
         var is_admin = (tokenDecoded.is_staff);
     }

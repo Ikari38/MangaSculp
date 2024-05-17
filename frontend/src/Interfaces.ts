@@ -4,7 +4,7 @@ export interface Product {
     description: string
     price: number
     rating?: number
-    count_in_stock: number
+    stock: number
     category:string
     image: File | null
     quantity?: number

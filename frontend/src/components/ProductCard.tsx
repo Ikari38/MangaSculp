@@ -24,7 +24,7 @@ const ProductCard = ({ product, page }: Props) => {
                         </h5>
                         <section className="flex justify-between">
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-200">
-                                €{product.price}
+                                {product.price}€
                             </h5>
                             <section className="flex items-center">
                                 <svg aria-hidden="true" className="w-5 h-5 text-yellow-400" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

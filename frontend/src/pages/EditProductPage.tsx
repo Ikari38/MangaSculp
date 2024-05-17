@@ -1,11 +1,11 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { post_product } from '../api/products';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 // import Loader from '../components/Loader';
 
-const AddProductPage = () => {
+const EditProductPage = () => {
     
         //Aqui se declaran los estados
 
@@ -19,11 +19,13 @@ const AddProductPage = () => {
         const inputRef = React.useRef<HTMLInputElement>(null);
         const [isHovered, setIsHovered] = useState(false);
 
+        const { id } = useParams();
+
         const navigate = useNavigate();
         const queryClient = useQueryClient();
 
         //Funcion que valida el Query de productos
-        const addProdMutation = useMutation({
+        const editProdMutation = useMutation({
             mutationFn: post_product,
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ["products"] });
@@ -40,7 +42,7 @@ const AddProductPage = () => {
         //Funcion Manejadora del envio del form y envia los datos al server
         const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            addProdMutation.mutate({
+            editProdMutation.mutate({
                 name: name,
                 stock: countInStock,
                 category: category,
@@ -112,7 +114,7 @@ const AddProductPage = () => {
                         <section className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                             <section className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                    Añadir Producto
+                                    Editar Producto
                                 </h3>
                                 <Link
                                     to="/admin"
@@ -327,7 +329,7 @@ const AddProductPage = () => {
                                             clipRule="evenodd"
                                         ></path>
                                     </svg>
-                                    Añadir nuevo producto
+                                    Editar producto
                                 </button>
                             </form>
                         </section>
@@ -337,4 +339,4 @@ const AddProductPage = () => {
         )
     }
 
-    export default AddProductPage
+    export default EditProductPage
