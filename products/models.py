@@ -8,6 +8,7 @@ class Category(Enum):
     PLAN = 'plano'
 
 class Product(models.Model):
+    slug = models.SlugField(max_length=50, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null= True)
     name = models.CharField(max_length=200, blank=True)
     image = models.ImageField(default='/placeholder.png')

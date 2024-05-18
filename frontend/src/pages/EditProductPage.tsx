@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { post_product } from '../api/products';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { edit_product, get_solo_prod } from '../api/products';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 // import Loader from '../components/Loader';
@@ -19,22 +19,45 @@ const EditProductPage = () => {
         const inputRef = React.useRef<HTMLInputElement>(null);
         const [isHovered, setIsHovered] = useState(false);
 
+
+    //Consigo el id y lo paso a number para evitar problemas
         const { id } = useParams();
+        let prodId: number;
+        if (id !== undefined) {
+            prodId= Number(id)
+        }
+
+        const { data } = useQuery({
+            queryFn: () => get_solo_prod(prodId),
+            queryKey: ['products', id],
+        })
+
+            //Fetch de datos para que se muestren segun se carga
+        useEffect(()=> {
+            if (data) {
+                setName(data.name)
+                setCountInStock(data.stock)
+                setDescription(data.description)
+                setCategory(data.category)
+                setPrice(data.price)
+                setImage(data.image)
+            }
+        }, [data])
 
         const navigate = useNavigate();
         const queryClient = useQueryClient();
 
         //Funcion que valida el Query de productos
         const editProdMutation = useMutation({
-            mutationFn: post_product,
+            mutationFn: edit_product,
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ["products"] });
-                toast.success("El producto se ha creado con exito")
+                toast.success("El producto se ha editado con exito")
                 navigate("/admin")
             },
             onError: (error) => {
                 console.error(error);
-                toast.error("Ha habido un error al crear el Producto")
+                toast.error("Ha habido un error al editar el Producto")
                 navigate("/admin")
             },
         });
@@ -48,10 +71,12 @@ const EditProductPage = () => {
                 category: category,
                 description: description,
                 price: price,
-                image: image
+                image: image,
+                id: prodId
             });
         };
 
+        //Manejadores de eventos
         const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
             setName(event.target.value);
         };
@@ -304,7 +329,7 @@ const EditProductPage = () => {
                                                     </button>
                                                     <img
                                                         className="h-48 w-96"
-                                                        src={filePreview}
+                                                        src={filePreview || `${import.meta.env.VITE_BACKEND_URL}${data.image}`}
                                                         alt="Imagen seleccionada"
                                                     />
                                                 </section>
@@ -329,7 +354,7 @@ const EditProductPage = () => {
                                             clipRule="evenodd"
                                         ></path>
                                     </svg>
-                                    Editar producto
+                                    Guardar cambios
                                 </button>
                             </form>
                         </section>

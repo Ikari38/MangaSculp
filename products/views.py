@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Product
 from .serializer import ProductSerializer
 from backend.pagination import CustomPagination
+from django.utils.text import slugify
 # Create your views here.
 
 @api_view(['GET'])
@@ -16,8 +17,14 @@ def get_products(request):
     return pagination.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
-def get_product(request, name):
-    products = Product.objects.get(name=name)
+def get_product(request, slug):
+    products = Product.objects.get(slug=slug)
+    serializer = ProductSerializer(products, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_product_admin(request, id):
+    products = Product.objects.get(id=id)
     serializer = ProductSerializer(products, many=False)
     return Response(serializer.data)
 
@@ -26,7 +33,13 @@ def create_product(request):
     if request.user.is_staff:
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            name = serializer.validated_data['name']
+            category = serializer.validated_data['category']
+            s = name+category
+            slug = slugify(s)
+            if serializer.Meta.model.objects.filter(slug=slug).exists():
+                return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save(user=request.user, slug=slug)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     else:
