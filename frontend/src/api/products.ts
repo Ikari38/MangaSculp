@@ -6,6 +6,11 @@ export const search_product = async (query: string) => {
     return response.data;
 }
 
+export const get_prods_by_category = async(category: string) => {
+    const response = await authAxios.get(`/products/category/${category}`);
+    return response.data;
+}
+
 export const delete_product = async (id: number) => {
     await authAxios.delete(`/products/delete/${id}/`)
 }

@@ -9,7 +9,8 @@ import AdminPage from "./pages/AdminPage"
 import AddProductPage from "./pages/AddProductPage"
 import EditProductPage from "./pages/EditProductPage" 
 import SoloProduct from "./pages/SoloProduct"
-
+import CategoryPage from "./pages/CategoryPage"
+import SearchByCategory from "./pages/SearchByCategory"
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="products/get/:slug" element={<SoloProduct/>} />
+          <Route path="category" element={<CategoryPage/>} />
+          <Route path="category/:category" element={<SearchByCategory />}/>
 
           <Route element={<PrivateRoute />} >
 

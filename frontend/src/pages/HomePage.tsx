@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
 import React from "react";
+import Rating from "../components/Rating";
 
 
 const HomePage = () => {

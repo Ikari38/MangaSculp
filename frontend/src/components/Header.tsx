@@ -96,7 +96,7 @@ const Header = () => {
                                                 </Link>
 
                                                 <Link
-                                                    to={'/'}
+                                                    to={'/category'}
                                                     className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
                                                 >
                                                     Categorias
@@ -253,7 +253,7 @@ const Header = () => {
                                     </Link>
 
                                     <Link
-                                        to={'/'}
+                                        to={'/category'}
                                         className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
                                     >
                                         Categorias

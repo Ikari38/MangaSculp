@@ -82,3 +82,9 @@ def search(request):
     product = Product.objects.filter(name__icontains=query)
     serializer = ProductSerializer( product, many = True)
     return Response({'products': serializer.data})
+
+@api_view(['GET'])
+def get_product_by_category(request, category):
+    products = Product.objects.filter(category=category)
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
