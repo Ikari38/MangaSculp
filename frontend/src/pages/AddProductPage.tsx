@@ -18,7 +18,7 @@ const AddProductPage = () => {
         const [filePreview, setFilePreview] = useState<string>('');
         const inputRef = React.useRef<HTMLInputElement>(null);
         const [isHovered, setIsHovered] = useState(false);
- 
+
         const navigate = useNavigate();
         const queryClient = useQueryClient();
 

@@ -20,13 +20,18 @@ const Header = () => {
 
 
     type Token = {
+        avatar: string;
         is_staff: boolean
     }
 
+    let is_admin: boolean
+    let avatar: string
+    
     if (isAuth) {
         const tokenDecoded: Token = jwtDecode(token)
         // eslint-disable-next-line no-var
-        var is_admin = (tokenDecoded.is_staff);
+        is_admin = tokenDecoded.is_staff;
+        avatar = tokenDecoded.avatar
     }
 
     function logOutFun() {
@@ -162,8 +167,8 @@ const Header = () => {
                                                 <span className="sr-only">Abrir menu de usuario</span>
                                                 <img
                                                     className="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt=""
+                                                    src={`${import.meta.env.VITE_BACKEND_URL}${avatar}`}
+                                                    alt="imagen del usuario"
                                                 />
                                             </Menu.Button>
                                         </section>
