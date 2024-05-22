@@ -73,3 +73,12 @@ def delete_product(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+@api_view(['GET'])
+def search(request):
+    query = request.query_params.get('query')
+    if query is None:
+        query = ''
+    product = Product.objects.filter(name__icontains=query)
+    serializer = ProductSerializer( product, many = True)
+    return Response({'products': serializer.data})

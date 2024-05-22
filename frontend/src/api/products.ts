@@ -1,6 +1,10 @@
 import { Product } from "../Interfaces";
 import { authAxios, axio } from "./useAxios";
 
+export const search_product = async (query: string) => {
+    const response = await authAxios.get(`/products/search/?query=${query}`);
+    return response.data;
+}
 
 export const delete_product = async (id: number) => {
     await authAxios.delete(`/products/delete/${id}/`)
@@ -58,3 +62,4 @@ export const get_products = async ({ pageParam = 1 }) => {
     const response = await axio.get(`/products/?page=${pageParam}&pages=9`);
     return response.data;
 };
+

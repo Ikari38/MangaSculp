@@ -9,6 +9,7 @@ import { useAuthStore } from "../store/auth";
 import Logo from '../assets/Logo.png'
 import { jwtDecode } from "jwt-decode"
 import { useCartStore } from "../store/cart"
+import { useSearchStore }from "../store/search"
 
 
 const Header = () => {
@@ -17,7 +18,9 @@ const Header = () => {
     const token: string = useAuthStore.getState().access;
     const { isAuth } = useAuthStore()
     const cart = useCartStore(state => state.cart);
-
+    const { setSearch } = useSearchStore((state) => ({
+        setSearch: state.setSearch
+    }));
 
     type Token = {
         avatar: string;
@@ -27,6 +30,11 @@ const Header = () => {
     let is_admin: boolean
     let avatar: string
     
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value)
+    }
+
+
     if (isAuth) {
         const tokenDecoded: Token = jwtDecode(token)
         // eslint-disable-next-line no-var
@@ -133,7 +141,11 @@ const Header = () => {
                                     <svg className="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
                                     <span className="sr-only">Busqueda</span>
                                 </section>
-                                <input type="text" id="search-navbar" className="block w-full md:w-[200px] lg:w-[400px] xl:w-[600px] p-2
+                                <input 
+                                type="text" 
+                                id="search-navbar"
+                                onChange={handleInputChange}
+                                className="block w-full md:w-[200px] lg:w-[400px] xl:w-[600px] p-2
                     pl-10 text-sm text-gray-900 border border-gray-300 rounded-full 
                     bg-gray-50 dark:bg-gray-700 outline-none
                     dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
