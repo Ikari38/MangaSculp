@@ -12,6 +12,12 @@ export interface Product {
     num_reviews?: number
 }
 
+export interface User {
+    id: number;
+    email: string;
+    name: string;
+    last_name: string;
+}
 export interface Token {
     exp: number;
     is_staff: boolean;

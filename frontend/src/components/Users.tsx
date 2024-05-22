@@ -1,8 +1,47 @@
 import { FaTrashCan } from "react-icons/fa6";
-import { FaPlusSquare } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
+import { delete_user, get_users } from "../api/users";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { User } from "../Interfaces";
 
-const Users = () => {
+interface Props {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    results: any;
+}
+
+const Users = ({ results }: Props) => {
+    const queryClient = useQueryClient();
+
+    const { data, isError, isLoading } = useQuery({
+        queryKey: [`users`],
+        queryFn: get_users,
+    })
+
+
+    const deleteUserMutation = useMutation({
+        mutationFn: delete_user,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["users"] });
+            toast.success("El Usuario se ha eliminado con exito")
+        },
+        onError: (error) => {
+            console.error(error);
+            toast.error("Ha habido un error al eliminar el Usuario")
+        },
+    });
+
+
+    useEffect(() => {
+        if (isError) {
+            toast.error("Error!");
+        }
+    }, [isError]);
+
+
+    if (isError) return toast.error("Error!")
+    if (isLoading) return <section>Loading ...</section>
+
 
     return (
         <section className="overflow-x-auto">
@@ -12,23 +51,48 @@ const Users = () => {
                         <th scope="col" className="px-4 py-3">ID Usuario</th>
                         <th scope="col" className="px-4 py-3">Email</th>
                         <th scope="col" className="px-4 py-3">Nombre</th>
+                        <th scope="col" className="px-4 py-3">Apellido</th>
                         <th scope="col" className="px-4 py-3 flex items-center justify-center gap-4">Acciones</th>
                     </tr>
                 </thead>
 
-                <tbody>
-                    <tr className="border-b dark:border-gray-700">
-                        <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">sdsd</th>
-                        <td className="px-4 py-3">sdsdsd</td>
-                        <td className="px-4 py-3">sdsdsd</td>
-                        <td className="px-4 py-3 flex items-center justify-center gap-4">
-                            <FaTrashCan size={22}
-                                className="text-red-500 cursor-pointer" />
-                            <FaEdit size={22} className="text-gray-900 dark:text-white cursor-pointer" />
-                            <FaPlusSquare size={22} className="text-green-500 cursor-pointer" />
-                        </td>
-                    </tr>
-                </tbody>
+                {results && results.users.length > 0 ? (
+                    <tbody>
+                        {results && results.users.map((user: User) => (
+                            <tr className="border-b dark:border-gray-700">
+                                <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.id}</th>
+                                <td className="px-4 py-3">{user.email}</td>
+                                <td className="px-4 py-3">{user.name}</td>
+                                <td className="px-4 py-3">{user.last_name}</td>
+                                <td className="px-4 py-3 flex items-center justify-center gap-4">
+                                    <FaTrashCan
+                                        onClick={() =>
+                                            deleteUserMutation.mutate(user.id)}
+                                        size={22}
+                                        className="text-red-500 cursor-pointer" />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                ) : (
+                    <tbody>
+                        {data && data.map((user: User) => (
+                            <tr className="border-b dark:border-gray-700">
+                                <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.id}</th>
+                                <td className="px-4 py-3">{user.email}</td>
+                                <td className="px-4 py-3">{user.name}</td>
+                                <td className="px-4 py-3">{user.last_name}</td>
+                                <td className="px-4 py-3 flex items-center justify-center gap-4">
+                                    <FaTrashCan
+                                        onClick={() =>
+                                            deleteUserMutation.mutate(user.id)}
+                                        size={22}
+                                        className="text-red-500 cursor-pointer" />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                )}
             </table>
         </section>
     )

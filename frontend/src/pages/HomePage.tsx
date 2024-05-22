@@ -6,12 +6,14 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
 import React from "react";
-import Rating from "../components/Rating";
+import SearchResults from "./SearchResults";
+import { useSearchStore } from "../store/search";
 
 
 const HomePage = () => {
 
     const { ref, inView } = useInView()
+    const search = useSearchStore((state) => state.search);
 
     const { 
         data,
@@ -36,7 +38,7 @@ const HomePage = () => {
 
     if (isLoading) return <p>Cargando...</p>
     if (error instanceof Error) return <>{toast.error(error.message)}</>
-
+    if (search) return <SearchResults />
 
     return (
         <>

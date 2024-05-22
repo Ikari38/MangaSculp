@@ -10,10 +10,15 @@ import { useEffect } from "react";
 import { Product } from "../Interfaces";
 import React from "react";
 
-const Products = () => {
+interface Props {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    results: any;
+}
+
+const Products = ({ results }: Props) => {
 
     const { ref, inView } = useInView()
-    
+
     const {
         data,
         isLoading,
@@ -28,10 +33,10 @@ const Products = () => {
         getNextPageParam: (page: any) => page.meta.next,
         initialPageParam: 1
     });
-    
-    
+
+
     const queryClient = useQueryClient();
-    
+
     const deleteProdMutation = useMutation({
         mutationFn: delete_product,
         onSuccess: () => {
@@ -64,48 +69,80 @@ const Products = () => {
                         <th scope="col" className="px-4 py-3 flex items-center justify-center gap-4">Acciones</th>
                     </tr>
                 </thead>
-
-                <tbody>
-                <tr className="border-b dark:border-gray-700">
-                    <td className="px-4 py-3"></td>
-                    <td className="px-4 py-3"></td>
-                    <td className="px-4 py-3 flex items-center justify-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white " >
-                        <Link to="/admin/add" className="flex items-center justify-center gap-4">
-                        Agregar Producto
-                            <FaPlusSquare size={22} className="text-green-500 cursor-pointer" />
-                        </Link>
-                    </td>
-                    <td className="px-4 py-3"></td>
-                    <td className="px-4 py-3"></td>
-                </tr>
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {data?.pages.map((page: any) => (
-                        <React.Fragment key={page.meta.next}>
-                            {page.data.map((product: Product) => (
-                                <tr key={product.id} className="border-b dark:border-gray-700">
+                {results && results.products.length > 0 ? (
+                    <>
+                        {results && results.products.map((product: Product) => (
+                            <tbody>
+                                <tr className="border-b dark:border-gray-700">
                                     <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white ">{product.id}</th>
                                     <td className="px-4 py-3">{product.name}</td>
                                     <td className="px-4 py-3">{product.price} &euro;</td>
                                     <td className="px-4 py-3">{product.stock}</td>
                                     <td className="px-4 py-3 flex items-center justify-center gap-4">
-                                        <FaTrashCan 
-                                        onClick={() => {
+                                        <FaTrashCan
+                                            onClick={() => {
                                                 if (product.id !== undefined) {
-                                                    deleteProdMutation.mutate(product.id)}
+                                                    deleteProdMutation.mutate(product.id)
                                                 }
                                             }
-                                                size={22}
+                                            }
+                                            size={22}
                                             className="text-red-500 cursor-pointer" />
                                         <Link to={`/admin/edit/${product.id}`}>
                                             <FaEdit size={22} className="text-gray-900 dark:text-white cursor-pointer" />
                                         </Link>
-                                        
+
                                     </td>
                                 </tr>
+                            </tbody>
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        <tbody>
+                            <tr className="border-b dark:border-gray-700">
+                                <td className="px-4 py-3"></td>
+                                <td className="px-4 py-3"></td>
+                                <td className="px-4 py-3 flex items-center justify-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white " >
+                                    <Link to="/admin/add" className="flex items-center justify-center gap-4">
+                                        Agregar Producto
+                                        <FaPlusSquare size={22} className="text-green-500 cursor-pointer" />
+                                    </Link>
+                                </td>
+                                <td className="px-4 py-3"></td>
+                                <td className="px-4 py-3"></td>
+                            </tr>
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                            {data?.pages.map((page: any) => (
+                                <React.Fragment key={page.meta.next}>
+                                    {page.data.map((product: Product) => (
+                                        <tr key={product.id} className="border-b dark:border-gray-700">
+                                            <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white ">{product.id}</th>
+                                            <td className="px-4 py-3">{product.name}</td>
+                                            <td className="px-4 py-3">{product.price} &euro;</td>
+                                            <td className="px-4 py-3">{product.stock}</td>
+                                            <td className="px-4 py-3 flex items-center justify-center gap-4">
+                                                <FaTrashCan
+                                                    onClick={() => {
+                                                        if (product.id !== undefined) {
+                                                            deleteProdMutation.mutate(product.id)
+                                                        }
+                                                    }
+                                                    }
+                                                    size={22}
+                                                    className="text-red-500 cursor-pointer" />
+                                                <Link to={`/admin/edit/${product.id}`}>
+                                                    <FaEdit size={22} className="text-gray-900 dark:text-white cursor-pointer" />
+                                                </Link>
+
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </React.Fragment>
                             ))}
-                        </React.Fragment>
-                    ))}
-                </tbody>
+                        </tbody>
+                    </>
+                )}
             </table>
             {!isLoading && data?.pages.length === 0 && (
                 <p key="no_results" className="text-xl text-slate-800 dark:text-slate-200">

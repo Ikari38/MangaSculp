@@ -29,7 +29,7 @@ const ProductCard = ({ product, page }: Props) => {
                             </h5>
                             <section className="flex items-center">
                                 <span className="ml-1 text-gray-500 dark:text-gray-400">
-                                                <Rating value={product.rating} />
+                                    <Rating value={product.rating} />
                                 </span>
                             </section>
                         </section>

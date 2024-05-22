@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { Product } from "../Interfaces";
 import Rating from "../components/Rating";
 import { useCartStore } from "../store/cart";
+import { useEffect } from "react";
 
 const SearchByCategory = () => {
 
@@ -18,11 +19,12 @@ const SearchByCategory = () => {
     })
 
 
-    /*useEffect(() => {
+    useEffect(() => {
         if (isError) {
             toast.error("Error!");
         }
-    }, [isError]); */
+    }, [isError]);
+    
     if (isError) return toast.error("Error!")
     if (isLoading) return <section>Loading ...</section>
 
@@ -32,7 +34,7 @@ const SearchByCategory = () => {
 
                 {data && data.map((product: Product) => (
                     <section className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <Link to={`/product/${product.slug}`}>
+                        <Link to={`/products/get/${product.slug}`}>
                             <img
                                 className="rounded-t-lg"
                                 src={`${import.meta.env.VITE_BACKEND_URL}${product.image}`}
@@ -40,7 +42,7 @@ const SearchByCategory = () => {
                             />
                         </Link>
                         <section className="p-5 ">
-                            <Link to={`/product/${product.name}`}>
+                            <Link to={`/products/get/${product.slug}`}>
                                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                     {product.name}
                                 </h5>
