@@ -39,6 +39,8 @@ source env/bin/activate
 
 pip install -r requirements.txt
 
+mkdir dist/static
+
 python manage.py runserver
 
 # Arrancar el frontend
@@ -59,7 +61,7 @@ Para iniciar sesiÃ³n, puedes usar el siguiente usuario
 Usuario: admin@admin.com
 ContraseÃ±a: admin
 
-O si la base de datos esta vacía puedes crearlo tú mismo
+O si la base de datos esta vacï¿½a puedes crearlo tï¿½ mismo
 python manage.py createsuperuser
 
 

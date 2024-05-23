@@ -9,7 +9,7 @@ import { useAuthStore } from "../store/auth";
 import Logo from '../assets/Logo.png'
 import { jwtDecode } from "jwt-decode"
 import { useCartStore } from "../store/cart"
-import { useSearchStore }from "../store/search"
+import { useSearchStore } from "../store/search"
 
 
 const Header = () => {
@@ -29,7 +29,7 @@ const Header = () => {
 
     let is_admin: boolean
     let avatar: string
-    
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value)
     }
@@ -80,12 +80,8 @@ const Header = () => {
                                         alt="Logo"
                                     />
                                 </section>
-
-
                                 <section className="hidden sm:ml-6 sm:block">
-
                                     <section className="flex space-x-4">
-
                                         {isAuth ? (
                                             <>
                                                 <Link
@@ -94,7 +90,6 @@ const Header = () => {
                                                 >
                                                     Inicio
                                                 </Link>
-
                                                 <Link
                                                     to={'/category'}
                                                     className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
@@ -102,7 +97,6 @@ const Header = () => {
                                                     Categorias
                                                 </Link>
                                             </>
-
                                         ) : (
                                             <>
                                                 <Link
@@ -111,7 +105,6 @@ const Header = () => {
                                                 >
                                                     Iniciar sesión
                                                 </Link>
-
                                                 <Link
                                                     to={'/register'}
                                                     className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
@@ -141,11 +134,11 @@ const Header = () => {
                                     <svg className="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
                                     <span className="sr-only">Busqueda</span>
                                 </section>
-                                <input 
-                                type="text" 
-                                id="search-navbar"
-                                onChange={handleInputChange}
-                                className="block w-full md:w-[200px] lg:w-[400px] xl:w-[600px] p-2
+                                <input
+                                    type="text"
+                                    id="search-navbar"
+                                    onChange={handleInputChange}
+                                    className="block w-full md:w-[200px] lg:w-[400px] xl:w-[600px] p-2
                     pl-10 text-sm text-gray-900 border border-gray-300 rounded-full 
                     bg-gray-50 dark:bg-gray-700 outline-none
                     dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 

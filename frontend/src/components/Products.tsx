@@ -104,7 +104,7 @@ const Products = ({ results }: Props) => {
                                 <td className="px-4 py-3"></td>
                                 <td className="px-4 py-3"></td>
                                 <td className="px-4 py-3 flex items-center justify-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white " >
-                                    <Link to="/admin/add" className="flex items-center justify-center gap-4">
+                                    <Link to="/admin/add" className="flex  justify-center gap-4">
                                         Agregar Producto
                                         <FaPlusSquare size={22} className="text-green-500 cursor-pointer" />
                                     </Link>

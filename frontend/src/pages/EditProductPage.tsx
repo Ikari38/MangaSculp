@@ -3,7 +3,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { edit_product, get_solo_prod } from '../api/products';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-// import Loader from '../components/Loader';
 
 const EditProductPage = () => {
     

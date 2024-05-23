@@ -12,6 +12,7 @@ interface State {
 interface Actions {
     addToCart: (Item: Product) => void
     removeFromCart: (Item: Product) => void
+    removeAll: () => void
 }
 
 //Estado inicial del carrito
@@ -25,6 +26,14 @@ export const useCartStore = create(persist<State & Actions>((set, get) => ({
     //Conseguimos el estado inicial
     cart: State.cart,
     totalPrice: State.totalPrice,
+
+    //Funciona para Borrar todo el carrito
+    removeAll: () => {
+        set({
+            cart: [],
+            totalPrice: 0
+        })
+    },
 
     //Funcion para agregar productos al carrito
     addToCart: (product: Product) => {

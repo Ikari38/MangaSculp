@@ -37,7 +37,6 @@ authAxios.interceptors.request.use(async (config) => {
         try{
             const res = await axio.post('/users/refresh', {refresh: useAuthStore.getState().refresh})
             useAuthStore.getState().setToken(res.data.access, res.data.refresh)
-        // Me cargo en linter para la siguiente linea para que no tire error con el tipo any
         } catch (err) {
                 console.log(err)
                 logOutFunc()

@@ -8,6 +8,7 @@ interface Props {
     page:string
 }
 
+//De aqui salen las cartas de producto con sus datos
 const ProductCard = ({ product, page }: Props) => {
 
     const addToCart = useCartStore(state => state.addToCart)
@@ -20,6 +21,7 @@ const ProductCard = ({ product, page }: Props) => {
                 </Link>
                 <section className="p-5 ">
                     <Link to={`/products/get/${product.slug}`}>
+                        
                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             {product.name}
                         </h5>
