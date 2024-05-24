@@ -1,0 +1,7 @@
+Credenciales de paypal para el simulado de pago
+
+Email:
+sb-tknzw30933216@personal.example.com
+
+Password:
+]p$/dZB5

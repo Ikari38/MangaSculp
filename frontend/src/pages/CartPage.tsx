@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCartStore } from "../store/cart"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { create_order } from "../api/orders"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import toast from "react-hot-toast"
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const CartPage = () => {
 
@@ -29,7 +31,6 @@ const CartPage = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["orders"] });
             toast.success("El Pedido se ha creado con exito")
-            // Borramos el carrito cuando se hace el pedido correctamente
             removeAll();
             navigate("/")
         },
@@ -40,9 +41,29 @@ const CartPage = () => {
         },
     });
 
+    // Creamos la orden de paypal
+    const createOrder = (data: any, actions: any) => {
+        console.log(data)
+        return actions.order.create({
+            purchase_units: [
+                {
+                    amount: {
+                        value: total_price
+                    },
+                },
+            ],
+            application_context: {
+                shipping_preference: "NO_SHIPPING"
+            }
+        })
+    }
+    // Manejamos el evento de aprobacion de paypal, pasandole tambien nuestro evento de handleSubmit para que haga en el back el pedido tambien
+    const onApprove = (data: any, actions: any) => {
+        console.log(data)
+        return actions.order.capture(handleSubmit());
+    }
     // Funcion Manejadora del envio del form y envia los datos al server
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmit = () => {
         createOrderMutation.mutate({
             order_items: cart,
             total_price: total_price,
@@ -161,13 +182,25 @@ const CartPage = () => {
                         </section>
 
                         <section>
-                            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo postal</label>
+                            <label htmlFor="postal_code" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo postal</label>
                             <input
                                 value={postal_code}
                                 onChange={(e) => setPostal_code(e.target.value)}
                                 type="text" name="postal_code" id="postal_code" placeholder="33600" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         </section>
-                        <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Crear Pedido</button>
+                        <section className="flex justify-center items-center" >
+                            <section className="w-full max-w-md">
+                                <PayPalScriptProvider options={{ 
+                                    clientId: "AVWTCXAak4uX_4bkHZ8zEcTABM2pyxhcCNxw6gVICNWpn_T3KcINlCQveb9xDTcWoQzI4kl_-JvN5Z8W",
+                                    currency: "EUR"
+                                    }} >
+                                    <PayPalButtons 
+                                    createOrder={(data, actions) => createOrder(data, actions)}
+                                    onApprove={(data, actions) => onApprove(data, actions)}
+                                    style={{ layout: "horizontal" }} />
+                                </PayPalScriptProvider>
+                            </section>
+                        </section>
                     </form>
                 </section>
             </section>
