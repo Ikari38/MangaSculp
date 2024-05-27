@@ -11,7 +11,6 @@ const Layout = () => {
             <section className="min-h-[1000px] bg-white dark:bg-gray-900">
                 <Outlet />
             </section>
-            {/* <Footer /> */}
         </section>
     )
 }

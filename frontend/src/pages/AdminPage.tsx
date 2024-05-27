@@ -2,9 +2,10 @@ import Users from "../components/Users"
 import Orders from "../components/Orders"
 import Products from "../components/Products"
 import { useState } from "react"
-import { search_product } from "../api/products"
 import { useQuery } from "@tanstack/react-query"
+import { search_product } from "../api/products"
 import { search_users } from "../api/users"
+import { search_order } from "../api/orders"
 
 
 useQuery
@@ -30,6 +31,16 @@ const AdminPage = () => {
                 return search_users(search)
             }
             return {users: []}
+        }
+    })
+
+    const {data: orders } = useQuery({
+        queryKey: ['orders', search],
+        queryFn: () => {
+            if (search && show === 1) {
+                return search_order(search);
+            }
+            return {orders: []};
         }
     })
 
@@ -71,7 +82,7 @@ const AdminPage = () => {
                         </section>
                     </section>
                     {show === 0 && <Products results={data} />}
-                    {show === 1 && <Orders />}
+                    {show === 1 && <Orders results={orders}/>}
                     {show === 2 && <Users results={users}/>}
                 </section>
             </section>

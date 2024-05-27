@@ -5,7 +5,7 @@ import Rating from "./Rating";
 
 interface Props {
     product: Product
-    page:string
+    page: string
 }
 
 //De aqui salen las cartas de producto con sus datos
@@ -21,7 +21,7 @@ const ProductCard = ({ product, page }: Props) => {
                 </Link>
                 <section className="p-5 ">
                     <Link to={`/products/get/${product.slug}`}>
-                        
+
                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             {product.name}
                         </h5>
@@ -30,9 +30,11 @@ const ProductCard = ({ product, page }: Props) => {
                                 {product.price}&euro;
                             </h5>
                             <section className="flex items-center">
-                                <span className=" flex items-center ml-1 text-gray-500 dark:text-gray-400">
-                                    <Rating value={product.rating} />
-                                    <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">{product.rating}</span>
+                                <span className="flex items-center ml-1 text-gray-500 dark:text-gray-400">
+                                    <Rating value={product.rating !== undefined ? product.rating : 0} />
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
+                                        {product.rating !== null ? product.rating : '0.00'}
+                                    </span>
                                 </span>
                             </section>
                         </section>
@@ -59,7 +61,7 @@ const ProductCard = ({ product, page }: Props) => {
                         dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         {page === 'home' && ''}
                         Ver
-                        
+
                         <svg aria-hidden="true" className="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd">
                             </path>

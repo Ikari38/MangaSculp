@@ -26,7 +26,7 @@ def search(request):
 def get_orders(request):
     orders = Order.objects.all()
     serializer = OrderSerializer(orders, many=True)
-    return Response({'orders': serializer.data})
+    return Response(serializer.data)
 
 # Funcion para crear pedidos
 @api_view(['POST'])

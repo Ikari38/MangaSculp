@@ -16,7 +16,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.email')
-    order_item = OrderItemSerializer(read_only=True)
+    order_items = OrderItemSerializer(read_only=True)
     shipping_address = serializers.SerializerMethodField(read_only=True)
 
     class Meta:

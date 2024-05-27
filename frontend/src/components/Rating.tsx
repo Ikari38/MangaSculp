@@ -2,8 +2,7 @@ import {faStar,faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface Props { value: any}
+interface Props { value: number}
 
 function Rating({value}: Props) {
 
