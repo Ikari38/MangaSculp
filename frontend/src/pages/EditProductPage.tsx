@@ -129,8 +129,6 @@ const EditProductPage = () => {
             setIsHovered(false)
         }
         
-        // if (addProdMutation.isLoading) return (<Loader />)
-        
         return (
             <section className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 ">
                 <section className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[700px] w-[600px] rounded-md">

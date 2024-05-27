@@ -11,7 +11,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=50, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null= True)
     name = models.CharField(max_length=200, blank=True)
-    image = models.ImageField(default='/placeholder.png')
+    image = models.ImageField(default='placeholder.png')
     category = models.CharField(max_length=20, choices=[(tag.value, tag.name) for tag in Category])
     description = models.CharField(max_length=200, blank=True)
     rating = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

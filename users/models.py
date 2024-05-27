@@ -20,13 +20,14 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
     
     def create_superuser(self,  email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=100,unique=True)
     name = models.CharField(max_length=100)
     last_name =  models.CharField(max_length=100)
-    avatar = models.ImageField(default="avatar.png")
+    avatar = models.ImageField(default='avatar.png')
     date_joined = models.DateTimeField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     objects = CustomUserManager()
@@ -34,5 +35,5 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
     
     class Meta:
-        ordering = ["-date_joined"]
+        ordering = ['-date_joined']
     

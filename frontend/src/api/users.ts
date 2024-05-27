@@ -1,4 +1,28 @@
+import { User } from "../Interfaces";
 import { authAxios, axio } from "./useAxios";
+
+export const get_solo_user = async (id: number) => {
+    const response = await authAxios.get(`/users/get/solo/${id}/`)
+    return response.data
+}
+
+export const edit_user = async (data: User) => {
+    try {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('last_name', data.last_name);
+    formData.append('email',data.email);
+    if (data.avatar) {
+        formData.append('avatar', data.avatar);
+        console.log("Datos enviados:"+formData)
+    }
+    await authAxios.put(`/users/edit/${data.email}/`, formData)
+} catch (error) {
+    console.log('Error al enviar el producto:', error);
+    throw error;
+}
+}
+
 
 export const search_users = async (query: string) => {
     const response = await authAxios.get(`users/search/?query=${query}`);

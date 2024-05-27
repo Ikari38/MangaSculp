@@ -5,12 +5,12 @@ from . models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'email', 'name', 'last_name')
+        fields = ('id', 'email', 'name', 'last_name', 'avatar')
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "name", "last_name","password"]
+        fields = ['email', 'name', 'last_name','password']
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -21,6 +21,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['avatar'] = user.avatar.url
         token['is_staff'] = user.is_staff
-        token['avatar'] = user.avatar.url
+        token['name'] = user.name
+        token['last_name'] = user.last_name
 
         return token
