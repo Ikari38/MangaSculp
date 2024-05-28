@@ -6,8 +6,10 @@ import { Product } from "../Interfaces";
 
 const SearchResults = () => {
 
+    // Obtener la busqueda de estado global
     const search = useSearchStore((state) => state.search);
 
+    //Realizar una consulta de productos basada en la busqueda anterior
     const { data } = useQuery({
         queryKey: ['products', search],
         queryFn: () => {

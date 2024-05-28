@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { edit_user, get_solo_user } from "../api/users";
 import { my_orders } from "../api/orders"
+import Loader from "../components/Loader";
 
 
 const UserProfile = () => {
@@ -114,7 +115,7 @@ const UserProfile = () => {
     // Comprobacion para verificar si hay un error en la carga de datos
     if(isError) return toast.error("Error")
     // Comprobacion para verificar si los datos estan cargando
-    if(isLoading) return <p>Cargando...</p>
+    if(isLoading) return <Loader />
 
     return (
 

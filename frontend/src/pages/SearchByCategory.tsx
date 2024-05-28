@@ -7,26 +7,30 @@ import { Product } from "../Interfaces";
 import Rating from "../components/Rating";
 import { useCartStore } from "../store/cart";
 import { useEffect } from "react";
+import Loader from "../components/Loader";
 
 const SearchByCategory = () => {
 
+    // Parametros de la url y funcion para añadir al carrito
     const { category } = useParams()
     const addToCart = useCartStore(state => state.addToCart)
 
+    // Consulta de productos por categoria
     const { data, isError, isLoading } = useQuery({
         queryKey: [`products`, category],
         queryFn: () => get_prods_by_category(category || ''),
     })
 
-
+    // Manejador de errores durante la carga de la consulta
     useEffect(() => {
         if (isError) {
             toast.error("Error!");
         }
     }, [isError]);
     
+    // Manejadores de errores
     if (isError) return toast.error("Error!")
-    if (isLoading) return <section>Loading ...</section>
+    if (isLoading) return <Loader />
 
     return (
         <section className="flex justify-center">
@@ -52,9 +56,8 @@ const SearchByCategory = () => {
                                     </h5>
                                     <section className="flex items-center">
                                         <span className="ml-1 text-gray-500 dark:text-gray-400">
-                                                <Rating value={product.rating} />
+                                            { product.rating && <Rating value={product.rating} />}
                                         </span>
-
                                     </section>
                                 </section>
                             </Link>

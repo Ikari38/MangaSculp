@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { User } from "../Interfaces";
+import Loader from "./Loader";
 
 interface Props {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,7 +41,7 @@ const Users = ({ results }: Props) => {
 
 
     if (isError) return toast.error("Error!")
-    if (isLoading) return <section>Loading ...</section>
+    if (isLoading) return <Loader />;
 
 
     return (
@@ -67,7 +68,7 @@ const Users = ({ results }: Props) => {
                                 <td className="px-4 py-3 flex items-center justify-center gap-4">
                                     <FaTrashCan
                                         onClick={() =>
-                                            deleteUserMutation.mutate(user.id)}
+                                            user.id && deleteUserMutation.mutate(user.id)}
                                         size={22}
                                         className="text-red-500 cursor-pointer" />
                                 </td>
@@ -85,7 +86,7 @@ const Users = ({ results }: Props) => {
                                 <td className="px-4 py-3 flex items-center justify-center gap-4">
                                     <FaTrashCan
                                         onClick={() =>
-                                            deleteUserMutation.mutate(user.id)}
+                                            user.id && deleteUserMutation.mutate(user.id)}
                                         size={22}
                                         className="text-red-500 cursor-pointer" />
                                 </td>

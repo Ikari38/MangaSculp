@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { get_orders, edit_order } from "../api/orders";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import Loader from "./Loader";
 
 interface Props {
     results: any;
@@ -12,13 +13,13 @@ const Orders = ({results}: Props ) => {
 
     const queryClient = useQueryClient();
 
-	// Conseguimos los datos de los pedidos
+	// Obtener los datos de los pedidos utilizando react-query
     const { data, isError, isLoading } = useQuery({
         queryKey: ["orders"],
         queryFn: get_orders,
     });
 
-    // Actualiza la lista de pedidos en el cache despues de enviar uno con exito
+    //Configura una mutación para editar un pedido y actualiza la cache tras una edicion exitosa
     const editOrderMut = useMutation({
         mutationFn: edit_order,
         onSuccess: () => {
@@ -30,9 +31,9 @@ const Orders = ({results}: Props ) => {
         },
     });
 
-    // Manejo de errores durante la carga de la promesa
+    // Manejo de errores durante la carga de datos
     if (isError) return toast.error("Error algo ha salido mal");
-    if (isLoading) return <p>Cargando ...</p>;
+    if (isLoading) return <Loader />;
 
     return (
         <section className="relative overflow-x-auto shadow-md sm:rounded-lg">

@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { post_product } from '../api/products';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-// import Loader from '../components/Loader';
 
 const AddProductPage = () => {
     
@@ -19,10 +18,11 @@ const AddProductPage = () => {
         const inputRef = React.useRef<HTMLInputElement>(null);
         const [isHovered, setIsHovered] = useState(false);
 
+        //Hooks de enrutamiento y consulta
         const navigate = useNavigate();
         const queryClient = useQueryClient();
 
-        //Funcion que valida el Query de productos
+        //Mutacion para agregar nuevos productos
         const addProdMutation = useMutation({
             mutationFn: post_product,
             onSuccess: () => {
@@ -50,7 +50,7 @@ const AddProductPage = () => {
             });
         };
 
-        //Manejadores de eventos
+        //Manejadores de eventos para los campos del formulario
         const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
             setName(event.target.value);
         };
@@ -98,13 +98,12 @@ const AddProductPage = () => {
             setIsHovered(false);
         };
 
-
+        //Funcion para borrar la imagen
         const removeImage = () => {
             setImage(null)
             setIsHovered(false)
         }
         
-        // if (addProdMutation.isLoading) return (<Loader />)
         
         return (
             <section className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 ">

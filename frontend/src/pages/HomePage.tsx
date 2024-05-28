@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ProductCard from "../components/ProductCard";
 import { Product } from "../Interfaces";
 import { get_products } from "../api/products";
@@ -8,13 +9,16 @@ import { useInView } from "react-intersection-observer";
 import React from "react";
 import SearchResults from "./SearchResults";
 import { useSearchStore } from "../store/search";
+import Loader from "../components/Loader";
 
 
 const HomePage = () => {
 
+    // Observador de visibilidad y estado de busqueda
     const { ref, inView } = useInView()
     const search = useSearchStore((state) => state.search);
 
+    // Consulta paginada para obtener productos
     const { 
         data,
         isLoading, 
@@ -25,24 +29,24 @@ const HomePage = () => {
     } = useInfiniteQuery({
         queryKey: ['products'], 
         queryFn: get_products,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getNextPageParam: (page: any) => page.meta.next,
         initialPageParam:1
     });
 
+    // Carga la siguiente página cuando el componente está en la vista
     useEffect(() => {
         if (inView) {
             fetchNextPage()
         }
     }, [fetchNextPage, inView]);
 
-    if (isLoading) return <p>Cargando...</p>
+    // Manejadores de errores y resultados
+    if (isLoading) return <Loader />
     if (error instanceof Error) return <>{toast.error(error.message)}</>
     if (search) return <SearchResults />
 
     return (
         <>
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {data?.pages.map((page: any) => (
                 <React.Fragment key="main">
                     <section className="flex justify-center">
@@ -71,7 +75,7 @@ const HomePage = () => {
                         hasNextPage && (
                             <section key="loading_key" ref={ref}>
                                 {isLoading || isFetchingNextPage ? (
-                                    <p>Cargando...</p>
+                                    <Loader />
                                 ) : null}
                             </section>
                         )}

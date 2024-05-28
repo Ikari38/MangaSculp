@@ -2,20 +2,21 @@ import { useQuery } from "@tanstack/react-query"
 import { get_solo } from "../api/products"
 import { useParams } from "react-router-dom"
 import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const SoloProduct = () => {
 
+    // Obtener el slug de los parametros de la URL
     const slug = useParams();
 
-
+    // Realizar una consulta para obtener los detalles del producto basado en el slug
     const { data, isLoading,isError } = useQuery({
         queryFn: () => get_solo(slug.slug || ''),
         queryKey: ['products', slug.slug],
     });
 
-    if (isLoading) {
-        return <section>Loading...</section>;
-    }
+    // Manejador de errores y tiempos de carga
+    if (isLoading) return <Loader/>;
     if (isError) return toast.error("Error")
 
     return (

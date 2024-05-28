@@ -10,10 +10,11 @@ import { search_order } from "../api/orders"
 
 useQuery
 const AdminPage = () => {
-
+    // Estados locales para la gestion del estado
     const [show, setShow] = useState(0)
     const [search, setSearch] = useState("")
 
+    // Consulta para obtener los datos de los productos
     const { data } = useQuery({
         queryKey: ['products', search],
         queryFn: () => {
@@ -24,6 +25,7 @@ const AdminPage = () => {
         }
     })
 
+    // Consulta para obtener los datos de los usuarios
     const { data: users } = useQuery({
         queryKey: ['users', search],
         queryFn: () => {
@@ -34,6 +36,7 @@ const AdminPage = () => {
         }
     })
 
+    // Consulta para obtener los datos de los pedidos
     const {data: orders } = useQuery({
         queryKey: ['orders', search],
         queryFn: () => {

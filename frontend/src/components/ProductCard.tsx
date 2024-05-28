@@ -8,7 +8,7 @@ interface Props {
     page: string
 }
 
-//De aqui salen las cartas de producto con sus datos
+// Componente de tarjeta de producto con datos del producto y pagina
 const ProductCard = ({ product, page }: Props) => {
 
     const addToCart = useCartStore(state => state.addToCart)

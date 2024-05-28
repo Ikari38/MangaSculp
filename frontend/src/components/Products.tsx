@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPlusSquare } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
@@ -9,16 +10,18 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { Product } from "../Interfaces";
 import React from "react";
+import Loader from "./Loader";
 
 interface Props {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     results: any;
 }
 
 const Products = ({ results }: Props) => {
 
+    // Hook para detectar si el elemento esta en vista
     const { ref, inView } = useInView()
 
+    // useInfinityQuery para manejar la paginacion de productos
     const {
         data,
         isLoading,
@@ -29,14 +32,14 @@ const Products = ({ results }: Props) => {
     } = useInfiniteQuery({
         queryKey: ['products'],
         queryFn: get_products,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getNextPageParam: (page: any) => page.meta.next,
         initialPageParam: 1
     });
 
-
+    // Manejo del cache
     const queryClient = useQueryClient();
 
+    // Mutacion para eliminar un producto
     const deleteProdMutation = useMutation({
         mutationFn: delete_product,
         onSuccess: () => {
@@ -49,13 +52,17 @@ const Products = ({ results }: Props) => {
         },
     });
 
+    // Carga mas productos cuando el elemento esta en vista
     useEffect(() => {
         if (inView) {
             fetchNextPage()
         }
     }, [fetchNextPage, inView]);
 
+    // Manejo de errores y estado de carga
     if (error instanceof Error) return <>{toast.error(error.message)}</>
+    if (isLoading) return <Loader />
+
     return (
         <section className="overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -155,7 +162,7 @@ const Products = ({ results }: Props) => {
                 hasNextPage && (
                     <section key="loading_key" ref={ref}>
                         {isLoading || isFetchingNextPage ? (
-                            <p>Cargando...</p>
+                            <Loader/>
                         ) : null}
                     </section>
                 )}

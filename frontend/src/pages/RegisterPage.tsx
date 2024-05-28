@@ -10,17 +10,19 @@ import { toast } from "react-hot-toast";
 
 const RegisterPage = () => {
 
+    // Navegacion y estado de autenticacion
     const navigate = useNavigate();
     const { isAuth } = useAuthStore();
 
+    // Estados de registro de usuario
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [last_name, setLastName] = useState("");
     const [password, setPassword] = useState("");
     const [re_password, setRePassword] = useState("");
 
+        // Mutacion para registrar al usuario
     const registerMutation = useMutation({
-        //Registramos el usuario
         mutationFn: () => registerRequest(email, name, last_name, password),
         onSuccess: () => {
             toast.success("Se ha registrado exitosamente")
@@ -32,8 +34,8 @@ const RegisterPage = () => {
         }
     })
 
+    //Verificamos que coincidan las contraseñas
     const handleMatch = () => {
-        //Verificamos que coincidan las contraseÃ±as
         if (password !== re_password) {
             return false
         }else {
@@ -41,8 +43,8 @@ const RegisterPage = () => {
         }
     }
 
+    //manejamos el envio del formulario y volvemos a verificar las contraseñas antes de mandar la solicitud
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        //manejamos el envio del formulario y volvemos a verificar las contraseÃ±as
         event.preventDefault();
         if( password !== re_password ){
             toast.error("Las contraseÃ±as deben ser iguales")
@@ -51,6 +53,7 @@ const RegisterPage = () => {
         }
     }
 
+        //Redirige a la pagina principal si el usuario esta identificado
     if(isAuth){
         return (<Navigate to="/"/>)
     }

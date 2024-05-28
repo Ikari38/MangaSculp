@@ -10,13 +10,16 @@ import { toast } from "react-hot-toast";
 
 const LoginPage = () => {
 
+    // Navegacion y estado de autenticacion
     const navigate = useNavigate();
     const { isAuth } = useAuthStore();
     const setToken = useAuthStore((state) => state.setToken);
 
+    // Estados de email y contraseña
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    // Mutacion para iniciar sesion
     const loginMutation = useMutation({
         //Logueamos con el usuario
         mutationFn: () => loginRequest(email, password),
@@ -32,13 +35,13 @@ const LoginPage = () => {
         }
     })
 
+    // Manejador del envio del formulario de inicio de sesion
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         loginMutation.mutate()
     }
 
     //Si el usuario esta autenticado lo redireccionamos a la pagina principal
-
     if(isAuth){
         return (<Navigate to="/"/>)
     }

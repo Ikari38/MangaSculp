@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import { useDarkMode } from "../store/theme";
 import { Fragment } from 'react'
@@ -40,7 +41,6 @@ const Header = () => {
     // Verifica que el usuario este conectado y decodifica el token
     if (isAuth) {
         const tokenDecoded: Token = jwtDecode(token)
-        // eslint-disable-next-line no-var
         is_admin = tokenDecoded.is_staff;
         avatar = tokenDecoded.avatar
     }
@@ -52,7 +52,7 @@ const Header = () => {
     }
 
     // Funcion utilitaria para manejar clases de CSS
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ')
     }
@@ -232,13 +232,10 @@ const Header = () => {
                 pl-10 text-sm text-gray-900 border border-gray-300 rounded-full 
                 bg-gray-50 dark:bg-gray-700 outline-none
                 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  
-                " placeholder="Search..." />
+                " placeholder="Buscar..." />
                         </section>
 
                         <section className="space-y-1 px-2 pb-3 pt-2">
-                            {/*       item.current ? 'bg-slate-400 text-black dark:bg-gray-900 dark:text-white' : */}
-                            {/*         'text-black hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white', */}
-                            {/* 'block rounded-md px-3 py-2 text-base font-medium' */}
                             {isAuth ? (
                                 <section className="w-full grid grid-cols-1">
                                     <Link

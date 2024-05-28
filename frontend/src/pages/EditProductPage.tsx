@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 const EditProductPage = () => {
     
         //Aqui se declaran los estados
-
         const [name, setName] = useState<string>('');
         const [countInStock, setCountInStock] = useState<number>(0);
         const [category, setCategory] = useState<string>('');
@@ -19,13 +18,14 @@ const EditProductPage = () => {
         const [isHovered, setIsHovered] = useState(false);
 
 
-    //Consigo el id y lo paso a number para evitar problemas
+        //Consigo el id y lo paso a number para evitar problemas
         const { id } = useParams();
         let prodId: number;
         if (id !== undefined) {
             prodId= Number(id)
         }
 
+        // Consulta para obtener los datos del producto especifico
         const { data } = useQuery({
             queryFn: () => get_solo_prod(prodId),
             queryKey: ['products', id],
@@ -46,7 +46,7 @@ const EditProductPage = () => {
         const navigate = useNavigate();
         const queryClient = useQueryClient();
 
-        //Funcion que valida el Query de productos
+       // Mutacion para editar el producto
         const editProdMutation = useMutation({
             mutationFn: edit_product,
             onSuccess: () => {
@@ -75,7 +75,7 @@ const EditProductPage = () => {
             });
         };
 
-        //Manejadores de eventos
+        //Manejadores de eventos para los cambios en los campos del formulario
         const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
             setName(event.target.value);
         };
@@ -123,7 +123,7 @@ const EditProductPage = () => {
             setIsHovered(false);
         };
 
-
+        // Funcion para eliminar la imagen seleccionada
         const removeImage = () => {
             setImage(null)
             setIsHovered(false)
