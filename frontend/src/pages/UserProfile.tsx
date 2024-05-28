@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { jwtDecode } from "jwt-decode";
 import { Token } from "../Interfaces";
 import { useAuthStore } from "../store/auth";
@@ -11,7 +12,7 @@ import { my_orders } from "../api/orders"
 
 const UserProfile = () => {
 
-    //Declaramos los estados
+    // Declaramos los estados
     
     const [show, setShow] = useState(true)
     const [stateName, setStateName] = useState<string>('');
@@ -21,7 +22,7 @@ const UserProfile = () => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [isHovered, setIsHovered] = useState(false);
 
-    //Declaramos las variables del token
+    // Declaramos las variables del token
     const token: string = useAuthStore.getState().access;
     const tokenDecoded: Token = jwtDecode(token)
     const id = tokenDecoded.user_id;
@@ -32,7 +33,7 @@ const UserProfile = () => {
         queryKey: ['users', id],
     })
 
-        //Fetch de datos para que se muestren segun se carga el componente
+    // Fetch de datos para que se muestren segun se carga el componente
     useEffect(()=> {
         if (user) {
             setStateName(user.name)
@@ -44,7 +45,7 @@ const UserProfile = () => {
 
     const queryClient = useQueryClient();
 
-    //Funcion que valida el Query de productos
+    // Funcion que valida el Query de productos
     const editProfileMutation = useMutation({
         mutationFn: edit_user,
         onSuccess: () => {
@@ -59,13 +60,13 @@ const UserProfile = () => {
         },
     });
 
-    //Fetching de datos del token
+    // Fetching de datos del token
     const { data, isError,isLoading } = useQuery({
         queryKey: ['orders'],
         queryFn: my_orders
     })
 
-    //Funcion Manejadora del envio del form y envia los datos al server
+    // Funcion Manejadora del envio del form y envia los datos al server
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         editProfileMutation.mutate({
@@ -77,7 +78,7 @@ const UserProfile = () => {
     };
 
 
-    //Funcion para subir archivo si no hay, no cargamos nada
+    // Funcion para subir archivo si no hay, no cargamos nada
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
         if (file) {
@@ -90,27 +91,29 @@ const UserProfile = () => {
         }
     };
 
-    //Funcion manejadora de arrastrar dentro del drag and drop
+    // Funcion manejadora de arrastrar dentro del drag and drop
     const handleDragEnter = (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault();
         setIsHovered(true);
     };
 
-    //Funcion manejadora de arrastrar fuera del drag and drop
+    // Funcion manejadora de arrastrar fuera del drag and drop
     const handleDragLeave = (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault();
         setIsHovered(false);
     };
 
-
+    // Funcion para borrar la imagen
     const removeImage = () => {
         setImage(null)
         setIsHovered(false)
     }
 
+    // Comprobacion para verificar si el usuario esta definido
     if (user === undefined) return <p>No Hay usuario</p>
-
+    // Comprobacion para verificar si hay un error en la carga de datos
     if(isError) return toast.error("Error")
+    // Comprobacion para verificar si los datos estan cargando
     if(isLoading) return <p>Cargando...</p>
 
     return (
@@ -155,15 +158,15 @@ const UserProfile = () => {
                                 </thead>
 
                                 <tbody>
-                                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                    {data && data.map((order: any) => (
+                                    {Array.isArray(data) && data.map((order: any) => (
+
                                         <tr className="border-b dark:border-gray-700">
                                             <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {order.id}
                                             </th>
                                             <td className="px-4 py-3">
                                                 <Link
-                                                    to={`/order/${order.id}/`}
+                                                    to={`/order/solo/${order.id}/`}
                                                     className="p-2 cursor-pointer rounded-lg bg-gray-900 hover:bg-gray-700">
                                                     Ver Pedido
                                                 </Link>

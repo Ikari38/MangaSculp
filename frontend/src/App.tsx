@@ -13,6 +13,7 @@ import CategoryPage from "./pages/CategoryPage"
 import SearchByCategory from "./pages/SearchByCategory"
 import CartPage from "./pages/CartPage"
 import UserProfile from "./pages/UserProfile"
+import SoloOrder from "./pages/SoloOrder"
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
           <Route element={<PrivateRoute />} >
             <Route path="cart" element={<CartPage />} />
             <Route path="profile" element={<UserProfile />} />
-            {/* <Route path="order/:id" element={<SoloOrder />} /> */}
+            <Route path="order/solo/:id" element={<SoloOrder />} />
           </Route>
 
           <Route path="admin" element={<AdminPrivateRoute />} >

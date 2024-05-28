@@ -14,6 +14,7 @@ import { useSearchStore } from "../store/search"
 
 const Header = () => {
 
+    //Declaracion de variables y estados
     const { toggleDarkMode, darkMode } = useDarkMode();
     const token: string = useAuthStore.getState().access;
     const { isAuth } = useAuthStore()
@@ -22,6 +23,7 @@ const Header = () => {
         setSearch: state.setSearch
     }));
 
+    // Definicion del token con solo los datos que se usan en el header
     type Token = {
         avatar: string;
         is_staff: boolean
@@ -30,11 +32,12 @@ const Header = () => {
     let is_admin: boolean
     let avatar: string
 
+    // Funcion para manejar el cambio del input de busqueda
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value)
     }
 
-
+    // Verifica que el usuario este conectado y decodifica el token
     if (isAuth) {
         const tokenDecoded: Token = jwtDecode(token)
         // eslint-disable-next-line no-var
@@ -42,17 +45,17 @@ const Header = () => {
         avatar = tokenDecoded.avatar
     }
 
+    // Funcion para cerrar sesion
     function logOutFun() {
         useAuthStore.getState().logout()
         window.location.href = '/login'
     }
 
+    // Funcion utilitaria para manejar clases de CSS
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ')
     }
-
-    // data array de productos
 
     return (
         <Disclosure as="nav" className="bg-grey dark:bg-gray-800">

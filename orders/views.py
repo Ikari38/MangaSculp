@@ -5,7 +5,7 @@ from rest_framework import status
 from datetime import datetime
 
 from .models import Order, Orderitem, ShippingAddress
-from .serializers import OrderSerializer
+from .serializers import OrderItemSerializer, OrderSerializer
 from products.models import Product
 # Create your views here.
 
@@ -74,6 +74,7 @@ def create_order(request):
         return Response({'mensaje': sum_of_prices}, status=status.HTTP_400_BAD_REQUEST)
 
 # Funcion para ver un pedido
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def solo_order(request, pk):
@@ -81,13 +82,19 @@ def solo_order(request, pk):
     try:
         order = Order.objects.get(pk=pk)
         if user.is_staff or order.user == user:
-            serializer = OrderSerializer(order, many=False)
-            return Response(serializer.data)
+            # Obtener los artículos asociados al pedido
+            order_items = Orderitem.objects.filter(order=order)
+            # Serializar tanto el pedido como sus articulos
+            order_data = OrderSerializer(order, many=False).data
+            order_items_data = OrderItemSerializer(order_items, many=True).data
+            # Agregar los artículos al objeto de datos del pedido
+            order_data['order_items'] = order_items_data
+            return Response(order_data)
         else:
             return Response({'detail': 'No tienes permiso para ver este pedido.'}, status=status.HTTP_401_UNAUTHORIZED)
-    
-    except:
+    except Order.DoesNotExist:
         return Response({'detail': 'El pedido no existe'}, status=status.HTTP_404_NOT_FOUND)
+
 
 # Funcion para ver los pedidos del usuario actual
 @api_view(['GET'])

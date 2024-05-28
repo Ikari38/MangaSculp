@@ -3,7 +3,7 @@ import { useCartStore } from "../store/cart"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { create_order } from "../api/orders"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { ChangeEvent, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
@@ -14,18 +14,38 @@ const CartPage = () => {
     const addToCart = useCartStore((state) => state.addToCart)
     const removeAll = useCartStore((state) => state.removeAll)
 
+    // Estados del carrito
     const cart = useCartStore(state => state.cart);
     const total_price = useCartStore(state => state.totalPrice);
 
+    // Estados del formulario
     const [address, setAddress] = useState<string>('');
     const [city, setCity] = useState<string>('');
     const [postal_code, setPostal_code] = useState<string>('');
 
+    // Referencias de los estados
+    const addressRef = useRef<string>(address);
+    const cityRef = useRef<string>(city);
+    const postalCodeRef = useRef<string>(postal_code);
 
+    // Efectos para actualizar las referencias de los estados
+    useEffect(() => {
+        addressRef.current = address;
+    }, [address]);
+
+    useEffect(() => {
+        cityRef.current = city;
+    }, [city]);
+
+    useEffect(() => {
+        postalCodeRef.current = postal_code;
+    }, [postal_code]);
+
+    // Hooks adicionales necesarios
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    // Funcion que valida el Query de productos
+    // Mutacion para crear un pedido
     const createOrderMutation = useMutation({
         mutationFn: create_order,
         onSuccess: () => {
@@ -41,14 +61,14 @@ const CartPage = () => {
         },
     });
 
-    // Creamos la orden de paypal
+    // Crea una orden de PayPal con el precio total del carrito y sin preferencia de envío.
     const createOrder = (data: any, actions: any) => {
         console.log(data)
         return actions.order.create({
             purchase_units: [
                 {
                     amount: {
-                        value: total_price
+                        value: total_price,
                     },
                 },
             ],
@@ -57,20 +77,50 @@ const CartPage = () => {
             }
         })
     }
-    // Manejamos el evento de aprobacion de paypal, pasandole tambien nuestro evento de handleSubmit para que haga en el back el pedido tambien
-    const onApprove = (data: any, actions: any) => {
-        console.log(data)
-        return actions.order.capture(handleSubmit());
+
+    // Captura el pago aprobado por PayPal y llama a handleSubmit para crear el pedido en el servidor.
+    const onApprove = async (data: any, actions: any) => {
+        try {
+            console.log(data)
+            await actions.order.capture()
+            handleSubmit(addressRef.current, cityRef.current, postalCodeRef.current)
+        } catch (error) {
+            console.log(error)
+            toast.error("Error al capturar el pago")
+        }
     }
-    // Funcion Manejadora del envio del form y envia los datos al server
-    const handleSubmit = () => {
+
+    // Envia los datos del formulario al servidor para crear un pedido, validando los campos necesarios.
+    const handleSubmit = (currentAddress: string, currentCity: string, currentPostalCode: string) => {
+        if (!currentAddress || !currentCity || !currentPostalCode) {
+            toast.error("error")
+            return;
+        }
         createOrderMutation.mutate({
             order_items: cart,
             total_price: total_price,
-            address: address,
-            city: city,
-            postal_code: postal_code,
+            address: currentAddress,
+            city: currentCity,
+            postal_code: currentPostalCode,
         });
+    };
+
+    // Actualiza el estado de la direccion cuando el usuario escribe en el input de address.
+    const handleAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setAddress(event.target.value);
+        console.log(address)
+    };
+
+    // Actualiza el estado de la ciudad cuando el usuario escribe en el input de city.
+    const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setCity(event.target.value);
+        console.log(city)
+    };
+
+    // Actualiza el estado del codigo postal cuando el usuario escribe en el input de postal_code
+    const handlePostalCodeChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPostal_code(event.target.value);
+        console.log(postal_code)
     };
 
     return (
@@ -112,7 +162,7 @@ const CartPage = () => {
 
                                                 <tr key={product.id} className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                                                     <th scope="row" className="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        <img src={`http://127.0.0.1:8000${product.image}`} alt={product.name} className="w-auto h-8 mr-3" />
+                                                        <img src={`${import.meta.env.VITE_BACKEND_URL}${product.image}`} alt={product.name} className="w-auto h-8 mr-3" />
 
                                                         {product.name}
                                                     </th>
@@ -163,13 +213,15 @@ const CartPage = () => {
                     <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Direccion de envio
                     </h1>
-                    <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                    <form className="space-y-4 md:space-y-6"
+                        onSubmit={(e) => { e.preventDefault(), handleSubmit(addressRef.current, cityRef.current, postalCodeRef.current) }}
+                    >
 
                         <section>
                             <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
                             <input
                                 value={address}
-                                onChange={(e) => setAddress(e.target.value)}
+                                onChange={handleAddressChange}
                                 type="text" name="address" id="address" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Domicilio" />
                         </section>
 
@@ -177,7 +229,7 @@ const CartPage = () => {
                             <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ciudad</label>
                             <input
                                 value={city}
-                                onChange={(e) => setCity(e.target.value)}
+                                onChange={handleCityChange}
                                 type="text" name="city" id="city" placeholder="Mieres" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         </section>
 
@@ -185,26 +237,25 @@ const CartPage = () => {
                             <label htmlFor="postal_code" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo postal</label>
                             <input
                                 value={postal_code}
-                                onChange={(e) => setPostal_code(e.target.value)}
+                                onChange={handlePostalCodeChange}
                                 type="text" name="postal_code" id="postal_code" placeholder="33600" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         </section>
                         <section className="flex justify-center items-center" >
                             <section className="w-full max-w-md">
-                                <PayPalScriptProvider options={{ 
+                                <PayPalScriptProvider options={{
                                     clientId: "AVWTCXAak4uX_4bkHZ8zEcTABM2pyxhcCNxw6gVICNWpn_T3KcINlCQveb9xDTcWoQzI4kl_-JvN5Z8W",
                                     currency: "EUR"
-                                    }} >
-                                    <PayPalButtons 
-                                    createOrder={(data, actions) => createOrder(data, actions)}
-                                    onApprove={(data, actions) => onApprove(data, actions)}
-                                    style={{ layout: "horizontal" }} />
+                                }} >
+                                    <PayPalButtons
+                                        createOrder={(data, actions) => createOrder(data, actions)}
+                                        onApprove={(data, actions) => onApprove(data, actions)}
+                                        style={{ layout: "horizontal" }} />
                                 </PayPalScriptProvider>
                             </section>
                         </section>
                     </form>
                 </section>
             </section>
-
         </>
     )
 

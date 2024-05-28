@@ -18,7 +18,6 @@ const Orders = ({results}: Props ) => {
         queryFn: get_orders,
     });
 
-    console.log(results)
     // Actualiza la lista de pedidos en el cache despues de enviar uno con exito
     const editOrderMut = useMutation({
         mutationFn: edit_order,
@@ -122,7 +121,7 @@ const Orders = ({results}: Props ) => {
 
                         <td className="px-6 py-4">
                             <Link
-                                to={`/order/${o.id}`}
+                                to={`/order/solo/${o.id}`}
                                 >
                             Ver
                             </Link>
@@ -130,7 +129,7 @@ const Orders = ({results}: Props ) => {
 
                         <td className="px-6 py-4">
                             <Link
-                                to={`/order/${o.id}`}
+                                to={`/order/solo/${o.id}`}
                                 >
                             Ver
                             </Link>
@@ -148,7 +147,7 @@ const Orders = ({results}: Props ) => {
                         ) : (
 
                 <tbody>
-                    {data && data.map((o: any) => (
+                    {Array.isArray(data) && data.map((o: any) => (
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td className="w-4 p-4">
                             <section className="flex items-center">
@@ -197,7 +196,7 @@ const Orders = ({results}: Props ) => {
 
                         <td className="px-6 py-4">
                             <Link
-                                to={`/order/${o.id}`}
+                                to={`/order/solo/${o.id}`}
                                 >
                             Ver
                             </Link>
@@ -205,7 +204,7 @@ const Orders = ({results}: Props ) => {
 
                         <td className="px-6 py-4">
                             <Link
-                                to={`/order/${o.id}`}
+                                to={`/order/solo/${o.id}`}
                                 >
                             Ver
                             </Link>
