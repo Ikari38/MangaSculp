@@ -41,7 +41,7 @@ const AddProductPage = () => {
         const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
 
-            if (validate()) {
+            if (!validate()) {
                 return;
             }
 
