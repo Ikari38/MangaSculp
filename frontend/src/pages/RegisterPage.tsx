@@ -46,12 +46,41 @@ const RegisterPage = () => {
     //manejamos el envio del formulario y volvemos a verificar las contraseÒas antes de mandar la solicitud
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if( password !== re_password ){
-            toast.error("Las contrase√±as deben ser iguales")
+        if( !validate() ){
+            return;
         } else {
             registerMutation.mutate()
         }
     }
+
+    // ValidaciÛn de los campos del formulario
+    const validate = () => {
+        const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const nameRegExp = /^[a-zA-Z0-9\s]{1,100}$/;
+        const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+        if (!email || !emailRegExp.test(email)) {
+            toast.error("El correo electronico no es valido");
+            return false;
+        }
+        if (!name || !nameRegExp.test(name)) {
+            toast.error("El nombre debe tener maximo 100 caracteres y solo puede contener letras y numeros");
+            return false;
+        }
+        if (!last_name || !nameRegExp.test(last_name)) {
+            toast.error("El apellido debe tener maximo 100 caracteres y solo puede contener letras y numeros");
+            return false;
+        }
+        if (!password || !passwordRegExp.test(password)) {
+            toast.error("La contrase√±a debe tener al menos 8 caracteres, incluyendo una letra y un numero");
+            return false;
+        }
+        if (!handleMatch()) {
+            toast.error("Las contrase√±as deben coincidir");
+            return false;
+        }
+        return true;
+    };
 
         //Redirige a la pagina principal si el usuario esta identificado
     if(isAuth){

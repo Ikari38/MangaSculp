@@ -5,8 +5,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const EditProductPage = () => {
-    
-        //Aqui se declaran los estados
+        // Estados para los valores iniciales
+        const [initialName, setInitialName] = useState<string>('');
+        const [initialCountInStock, setInitialCountInStock] = useState<number>(0);
+        const [initialCategory, setInitialCategory] = useState<string>('');
+        const [initialDescription, setInitialDescription] = useState<string>('');
+        const [initialPrice, setInitialPrice] = useState<number>(0);
+        const [initialImage, setInitialImage] = useState<string | null>(null);
+
+        // Estados para los valores actuales
         const [name, setName] = useState<string>('');
         const [countInStock, setCountInStock] = useState<number>(0);
         const [category, setCategory] = useState<string>('');
@@ -40,6 +47,13 @@ const EditProductPage = () => {
                 setCategory(data.category)
                 setPrice(data.price)
                 setImage(data.image)
+
+                setInitialName(data.name);
+                setInitialCountInStock(data.stock);
+                setInitialDescription(data.description);
+                setInitialCategory(data.category);
+                setInitialPrice(data.price);
+                setInitialImage(data.image);
             }
         }, [data])
 
@@ -64,6 +78,10 @@ const EditProductPage = () => {
         //Funcion Manejadora del envio del form y envia los datos al server
         const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
+            if (isTextFormModified()) {
+                toast.error("Se debe modificar al menos uno de los campos.");
+                return;
+            }
             editProdMutation.mutate({
                 name: name,
                 stock: countInStock,
@@ -73,6 +91,20 @@ const EditProductPage = () => {
                 image: image,
                 id: prodId
             });
+        };
+
+        // Funcion para verificar si hay cambios en los campos
+        const isTextFormModified = () => {
+            if(
+                name == initialName &&
+                countInStock == initialCountInStock &&
+                category == initialCategory &&
+                description == initialDescription &&
+                price == initialPrice &&
+                image == initialImage){
+                    return true;
+                }
+            return false;
         };
 
         //Manejadores de eventos para los cambios en los campos del formulario

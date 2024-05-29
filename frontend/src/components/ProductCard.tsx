@@ -14,15 +14,15 @@ const ProductCard = ({ product, page }: Props) => {
     const addToCart = useCartStore(state => state.addToCart)
 
     return (
-        <section>
-            <section className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <section className="mb-8 w-full max-w-xs mx-auto">
+            <section className="bg-white border border-gray-200 rounded-lg shadow overflow-hidden dark:bg-gray-800 dark:border-gray-700">
                 <Link to={`/products/get/${product.slug}`}>
-                    <img className="rounded-t-lg" src={`${import.meta.env.VITE_BACKEND_URL}${product.image}`} alt={product.name} />
+                    <img className="w-full h-64 object-cover" src={`${import.meta.env.VITE_BACKEND_URL}${product.image}`} alt={product.name} />
                 </Link>
-                <section className="p-5 ">
+                <section className="p-4 ">
                     <Link to={`/products/get/${product.slug}`}>
 
-                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        <h5 className="text-xl font-bold text-gray-900 dark:text-white">
                             {product.name}
                         </h5>
                         <section className="flex justify-between">

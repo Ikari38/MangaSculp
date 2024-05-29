@@ -59,11 +59,16 @@ def edit_product(request, pk):
         if serializer.is_valid():
             name = serializer.validated_data['name']
             category = serializer.validated_data['category']
-            concatslug = name+category
-            slug = slugify(concatslug)
-            if serializer.Meta.model.objects.filter(slug=slug).exists():
-                return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-            serializer.save(user=request.user, slug=slug)
+            if 'image' not in request.data:
+                serializer.validated_data.pop('iamge', None)
+            if name != product.name or category != product.category:
+                concatslug = name+category
+                slug = slugify(concatslug)
+                if serializer.Meta.model.objects.filter(slug=slug).exists():
+                    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+                serializer.save(user=request.user, slug=slug)
+            else:
+                serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     else:

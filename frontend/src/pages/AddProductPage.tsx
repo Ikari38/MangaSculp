@@ -41,8 +41,7 @@ const AddProductPage = () => {
         const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
 
-            if (!name || !category || !description || countInStock <= 0 || price <= 0 || !image) {
-                toast.error("Todos los campos son obligatorios y deben ser validos");
+            if (validate()) {
                 return;
             }
 
@@ -54,6 +53,42 @@ const AddProductPage = () => {
                 price: price,
                 image: image
             });
+        };
+
+        //Funcion que valida datos del formulario
+        const validate = () => {
+            const nameRegExp = /^[a-zA-Z0-9\s]{1,200}$/;
+            const descriptionRegExp = /^[a-zA-Z0-9\s.,!?-]{1,200}$/;
+            const validCategories = ["figura", "plano"];
+
+
+            if (!name || !nameRegExp.test(name)) {
+                toast.error('El nombre es obligatorio y debe tener maximo 200 caracteres');
+                return false;
+            }
+            if (!category || !validCategories.includes(category)) {
+                toast.error('La categoria es obligatoria');
+                return false;
+            }
+            if (!description || !descriptionRegExp.test(description)) {
+                toast.error('La descripcion es obligatoria y debe tener maximo 200 caracteres');
+                return false;
+            }
+            if (countInStock < 0) {
+                toast.error('La cantidad en stock debe ser un numero entero no negativo');
+                return false;
+            }
+            if (price <= 0) {
+                toast.error('El precio debe ser un numero positivo');
+                return false;
+            }
+            if (!image) {
+                toast.error('La imagen es obligatoria');
+                return false;
+            }
+    
+    
+            return true
         };
 
         //Manejadores de eventos para los campos del formulario

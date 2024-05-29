@@ -33,14 +33,14 @@ export const get_solo_prod = async (id: number) => {
 export const edit_product = async (data: Product) => {
     try {
     const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('description', data.description);
-    formData.append('stock', data.stock.toString());
-    formData.append('category', data.category);
-    formData.append('price',data.price.toString());
-    if (data.image) {
+    if (data.name) formData.append('name', data.name);
+    if (data.description) formData.append('description', data.description);
+    if (data.stock) formData.append('stock', data.stock.toString());
+    if (data.category) formData.append('category', data.category);
+    if (data.price) formData.append('price',data.price.toString());
+    if (data.image instanceof File) {
         formData.append('image', data.image);
-        console.log("Datos enviados:"+formData)
+        console.dir([...formData.entries()])
     }
     await authAxios.put(`/products/edit/${data.id}/`, formData)
 } catch (error) {

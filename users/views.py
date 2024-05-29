@@ -32,6 +32,8 @@ def edit_profile(request, email):
         # Edita el perfil del usuario si el user actual coincide con el user solicitado
         serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid():
+            if 'avatar' not in request.data:
+                serializer.validated_data.pop('image', None)
             serializer.save()
             return Response(serializer.data)
         else:

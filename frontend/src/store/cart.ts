@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Product } from "../Interfaces";
+import toast from "react-hot-toast";
 
 //Definimos los tipos
 interface State {
@@ -39,6 +40,19 @@ export const useCartStore = create(persist<State & Actions>((set, get) => ({
     addToCart: (product: Product) => {
         const cart = get().cart
         const cartItem = cart.find(item => item.id === product.id)
+        const availableStock = product.stock || 0 ;
+
+        // Verificar si hay suficiente stock disponible
+        if (cartItem && cartItem.quantity && cartItem.quantity >= availableStock) {
+            toast.error('No hay suficiente stock disponible para agregar este producto al carrito');
+            return;
+        }
+
+        // Restar el stock disponible si el producto no está en el carrito
+        if (!cartItem && availableStock <= 0) {
+            toast.error('No hay suficiente stock disponible para agregar este producto al carrito');
+            return;
+        }
 
         //Si ya esta en el carrito sumamos +1 a la cantidad
         if (cartItem) {
@@ -49,7 +63,7 @@ export const useCartStore = create(persist<State & Actions>((set, get) => ({
                 cart: updatedCart,
                 totalPrice: state.totalPrice + Number(product.price)
             }))
-        //Si no esta en el carrito Sumamos el producto
+            //Si no esta en el carrito Sumamos el producto
         } else {
             const updatedCart = [...cart, { ...product, quantity: 1 }]
             //Actualizamos el precio total del carrito
@@ -73,7 +87,7 @@ export const useCartStore = create(persist<State & Actions>((set, get) => ({
                 cart: updatedCart,
                 totalPrice: state.totalPrice - Number(product.price)
             }))
-        //Si queda solo 1 producto, eliminamos el objeto del carrito y actualizamos
+            //Si queda solo 1 producto, eliminamos el objeto del carrito y actualizamos
         } else {
             set(state => ({
                 cart: state.cart.filter(item => item.id !== product.id),

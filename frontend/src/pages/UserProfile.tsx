@@ -23,6 +23,10 @@ const UserProfile = () => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [isHovered, setIsHovered] = useState(false);
 
+    // Declaramos los estados iniciales para comprobaciones posteriores
+    const [initialName, setInitialName] = useState<string>('');
+    const [initialLast, setInitialLast] = useState<string>('');
+    const [initialImage, setInitialImage] = useState<File | null>(null);
     // Declaramos las variables del token
     const token: string = useAuthStore.getState().access;
     const tokenDecoded: Token = jwtDecode(token)
@@ -40,6 +44,10 @@ const UserProfile = () => {
             setStateName(user.name)
             setStateLast(user.last_name)
             setImage(user.avatar)
+
+            setInitialName(user.name);
+            setInitialLast(user.last_name);
+            setInitialImage(user.avatar);
         }
     }, [user])
 
@@ -70,12 +78,34 @@ const UserProfile = () => {
     // Funcion Manejadora del envio del form y envia los datos al server
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!validateForm()) return;
         editProfileMutation.mutate({
             name: stateName,
             last_name: stateLast,
             avatar: image,
             email: user.email
         });
+    };
+
+    // Funcion de validacion de datos
+    const validateForm = () => {
+        const regex = /^[a-zA-ZÀ-ÿ0-9\s]{1,100}$/;
+        const nameValid = regex.test(stateName);
+        const lastNameValid = regex.test(stateLast);
+
+        if (!nameValid) {
+            toast.error('El nombre debe tener entre 1 y 100 caracteres y no contener caracteres especiales.');
+            return false;
+        }
+        if (!lastNameValid) {
+            toast.error('El apellido debe tener entre 1 y 100 caracteres y no contener caracteres especiales.');
+            return false;
+        }
+        if (stateName === initialName && stateLast === initialLast && image === initialImage) {
+            toast.error('Debe cambiar al menos uno de los campos: nombre, apellido o foto.');
+            return false;
+        }
+        return true;
     };
 
 

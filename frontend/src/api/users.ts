@@ -11,12 +11,12 @@ export const get_solo_user = async (id: number) => {
 export const edit_user = async (data: User) => {
     try {
     const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('last_name', data.last_name);
-    formData.append('email',data.email);
-    if (data.avatar) {
+    if (data.name) formData.append('name', data.name);
+    if (data.last_name) formData.append('last_name', data.last_name);
+    if (data.email) formData.append('email',data.email);
+    if (data.avatar instanceof File) {
         formData.append('avatar', data.avatar);
-        console.log("Datos enviados:"+formData)
+        // console.dir ([...formData.entries()])
     }
     await authAxios.put(`/users/edit/${data.email}/`, formData)
 } catch (error) {
