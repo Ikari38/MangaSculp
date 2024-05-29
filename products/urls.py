@@ -10,4 +10,6 @@ urlpatterns = [
     path('delete/<int:pk>/', views.delete_product),
     path('search/', views.search),
     path('category/<str:category>/', views.get_product_by_category),
+
+    path('review/<int:pk>/', views.create_review),
 ]

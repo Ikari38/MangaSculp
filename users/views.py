@@ -12,6 +12,7 @@ from . serializers import RegisterUserSerializer, MyTokenObtainPairSerializer, U
 
 # Create your views here.
 
+# Obtener el usuario por su clave primaria
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_solo_user(request, pk):
@@ -19,6 +20,7 @@ def get_solo_user(request, pk):
     serializer = UserSerializer(user)
     return Response(serializer.data)
 
+# Editar el usuario, buscandolo por el email
 @api_view(['PUT'])
 def edit_profile(request, email):
     try:
@@ -27,6 +29,7 @@ def edit_profile(request, email):
         return Response({'mensaje': 'Usario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
     
     if request.user == user:
+        # Edita el perfil del usuario si el user actual coincide con el user solicitado
         serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -36,7 +39,7 @@ def edit_profile(request, email):
     else:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-
+# Busca usuarios por su nombre, apellido o email
 @api_view(['GET'])
 def search(request):
     query = request.query_params.get('query')
@@ -50,6 +53,7 @@ def search(request):
     serializer = UserSerializer( user, many = True)
     return Response({'users': serializer.data})
 
+# Elimina un usuario por clave primaria
 @api_view(['DELETE'])
 def delete_user(request,pk):
     if request.user.is_staff:
@@ -58,6 +62,7 @@ def delete_user(request,pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+# Obtiene todos los usuarios si el usuario es administrador
 @api_view(['GET'])
 def get_users(request):
     if request.user.is_staff:
@@ -66,6 +71,7 @@ def get_users(request):
         return Response(serializer.data)
     return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+# Registra un nuevo usuario y encripta la contraseña
 @api_view(['POST'])
 def register(request):
     data = request.data
@@ -78,5 +84,6 @@ def register(request):
     serializer = RegisterUserSerializer(user, many=False)
     return Response(serializer.data)
 
+#Vista para iniciar sesion y obtener el par de tokens de acceso y actualizacion
 class LoginView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer

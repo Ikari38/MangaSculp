@@ -1,6 +1,11 @@
 import { Product } from "../Interfaces";
 import { authAxios, axio } from "./useAxios";
 
+// Funcion para crear una review
+export const create_review = async (description: string, rating: number, productId: number) => {
+    await authAxios.post(`/products/review/${productId}/`, {description, rating})
+}
+
 // Funcion para buscar productos
 export const search_product = async (query: string) => {
     const response = await authAxios.get(`/products/search/?query=${query}`);

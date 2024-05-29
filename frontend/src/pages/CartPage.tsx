@@ -92,8 +92,7 @@ const CartPage = () => {
 
     // Envia los datos del formulario al servidor para crear un pedido, validando los campos necesarios.
     const handleSubmit = (currentAddress: string, currentCity: string, currentPostalCode: string) => {
-        if (!currentAddress || !currentCity || !currentPostalCode) {
-            toast.error("error")
+        if (!validateForm(currentAddress,currentCity,currentPostalCode)) {
             return;
         }
         createOrderMutation.mutate({
@@ -103,6 +102,24 @@ const CartPage = () => {
             city: currentCity,
             postal_code: currentPostalCode,
         });
+    };
+
+    // Valida los campos del formulario
+    const validateForm = (address: string, city: string, postal_code: string) => {
+        if (!address.trim() || address.length > 250) {
+            toast.error("La dirección es obligatoria y debe tener menos de 250 caracteres.");
+            return false;
+        }
+        if (!city.trim() || city.length > 100) {
+            toast.error("La ciudad es obligatoria y debe tener menos de 100 caracteres.");
+            return false;
+        }
+        const postalCodeRegex = /^[a-zA-Z0-9\s-]{1,100}$/;
+        if (!postal_code.trim() || !postalCodeRegex.test(postal_code)) {
+            toast.error("El código postal es obligatorio y debe ser válido.");
+            return false;
+        }
+        return true;
     };
 
     // Actualiza el estado de la direccion cuando el usuario escribe en el input de address.

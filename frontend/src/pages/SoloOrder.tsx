@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { solo_order } from "../api/orders";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const SoloOrder = () => {
     // Obtiene parametro de la url
@@ -22,7 +23,7 @@ const SoloOrder = () => {
 
     // Maneja estado de carga y error de la consulta
     if (isError) return toast.error("Error!");
-    if (isLoading) return <p>Cargando ... </p>;
+    if (isLoading) return <Loader />;
 
     return (
         <section className="overflow-x-auto container mx-auto px-4 pt-11">
@@ -137,7 +138,7 @@ const SoloOrder = () => {
                         </th>
 
                         <th scope="col" className="px-4 py-3">
-                            Pecio
+                            Precio
                         </th>
                     </tr>
                 </thead>

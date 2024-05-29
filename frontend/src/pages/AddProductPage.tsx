@@ -40,6 +40,12 @@ const AddProductPage = () => {
         //Funcion Manejadora del envio del form y envia los datos al server
         const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
+
+            if (!name || !category || !description || countInStock <= 0 || price <= 0 || !image) {
+                toast.error("Todos los campos son obligatorios y deben ser validos");
+                return;
+            }
+
             addProdMutation.mutate({
                 name: name,
                 stock: countInStock,

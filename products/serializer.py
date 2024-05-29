@@ -7,6 +7,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = "__all__"
 
+    # Metodo para obtener las reseñas de un producto
     def get_reviews(self,obj):
         reviews = obj.reviews_set.all()
         serializer = ReviewSerializer(reviews, many=True)
@@ -21,5 +22,6 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Reviews
         fields = "__all__"
 
+    # Metodo para obtener la URL del avatar del usuario
     def get_avatar(self, obj):
         return obj.user.avatar.url

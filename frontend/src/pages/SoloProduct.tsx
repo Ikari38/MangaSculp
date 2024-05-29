@@ -3,6 +3,7 @@ import { get_solo } from "../api/products"
 import { useParams } from "react-router-dom"
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
+import Reviews from "../components/Reviews";
 
 const SoloProduct = () => {
 
@@ -46,6 +47,9 @@ const SoloProduct = () => {
                         src={`${import.meta.env.VITE_BACKEND_URL}${data.image}`}
                         alt={data.name} />
 
+                </section>
+                <section>
+                    <Reviews productId={data.id} productName={data.name} reviews={data.reviews} />
                 </section>
             </section>
         </>

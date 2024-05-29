@@ -23,11 +23,13 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
     
+    # Metodo para obtener los elementos del pedido asociados a un objeto de pedido
     def get_order_items(self, obj):
         items = obj.orderitem_set.all()
         serializer = OrderItemSerializer(items, many=True)
         return serializer.data
     
+    # Metodo para obtener la direccion de envio asociada a un objeto de pedido
     def get_shipping_address(self, obj):
         try:
             address = ShippingSerializer(
