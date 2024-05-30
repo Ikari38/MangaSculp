@@ -30,9 +30,13 @@ Si por algún casual no puedes ejecutar scripts de Python en Windows, entra a una
 git clone https://github.com/Ikari38/MangaSculp.git
 cd MangaSculp\MangaSculp
 python -m venv env
+```
 # En Windows
+```bash
 .\env\Scripts\activate
+```
 # En Linux
+```bash
 source env/bin/activate
 pip install -r requirements.txt
 mkdir dist/static
