@@ -1,73 +1,67 @@
 # MangaSculp
-Proyecto de Aplicacion Web
 
-# Dependecias para arrancar el proyecto
-Necesitamos git, python y node.js
+## Proyecto de Aplicación Web
 
-Estas son las versiones que he usado
+### Dependencias para arrancar el proyecto
+Necesitamos **git**, **python** y **node.js**.
 
-Version python
-Python 3.12.3
-Version node.js
-v20.12.2
+#### Versiones utilizadas
+- **Python**: 3.12.3
+- **Node.js**: v20.12.2
 
-# Correccion de errores en windows
-Si por algun casual no puedes ejecutar scripts de python en windows
-entrar a una powershell con permisos de admin
+#### Corrección de errores en Windows
+Si por algún casual no puedes ejecutar scripts de Python en Windows, entra a una PowerShell con permisos de administrador y ejecuta los siguientes comandos:
 
-Este abres los scripts solo a modo local, lo cual es mas seguro, pero puede dar algun error
-Set-ExecutionPolicy RemoteSigned
+   Para abrir los scripts solo a modo local (más seguro, pero puede dar algún error):
+   ```powershell
+   Set-ExecutionPolicy RemoteSigned
+   ```
+   Esto abre paso a todos los scripts de todo el mundo
+   ```powershell
+   Set-ExecutionPolicy Unrestricted
+   ```
+   Y luego una vez instalado todo, los puedes cerrar de nuevo, para no dejar una brecha de seguridad
+   ```powershell
+   Set-ExecutionPolicy Restricted
+   ```
 
-Esta abres paso a todos los scripts de todo el mundo
-Set-ExecutionPolicy Unrestricted
-
-Y luego una vez instalado todo, los puedes cerrar de nuevo, para no dejar una brecha de seguridad
-Set-ExecutionPolicy Restricted
-
-# Arrancar el backend
+### Arrancar el backend
+```bash
 git clone https://github.com/Ikari38/MangaSculp.git
-
 cd MangaSculp\MangaSculp
-
 python -m venv env
-
-En windows
+# En Windows
 .\env\Scripts\activate
-
-En linux
+# En Linux
 source env/bin/activate
-
 pip install -r requirements.txt
-
 mkdir dist/static
-
 python manage.py runserver
+```
 
-# Arrancar el frontend
-En otro terminal distinto
-
+### Arrancar el frontend
+En otro terminal distinto, dentro de la carpeta de MangaSculp:
+```bash
 cd frontend
-
 npm install
-
 npm run dev
+```
 
-Una vez que has arrancado todo, entra a la siguiente url
-http://127.0.0.1:5173/
+Una vez que has arrancado todo, entra a la siguiente url: http://127.0.0.1:5173/
 
-# Inicio Sesion
-Para iniciar sesiÃ³n, puedes usar el siguiente usuario
+### Inicio de Sesión
+Para iniciar sesión, puedes usar el siguiente usuario:
 
 Usuario: admin@admin.com
-ContraseÃ±a: admin
+Contraseña: admin
 
-O si la base de datos esta vacï¿½a puedes crearlo tï¿½ mismo
+O si la base de datos está vacía, puedes crearlo tú mismo ejecutando:
+
+```bash
 python manage.py createsuperuser
+```
 
+### Base de Datos
+Para ver los datos de la base de datos, instala Dbeaver (yo uso la versión portable): [Descarga DBeaver](https://dbeaver.io/download/)
 
-# BBDD
-Para ver los datos de la base de datos, instalar Dbeaver (Yo uso la version portable)
-https://dbeaver.io/download/
-Una vez dentro debajo de Archivo, trae un icono de un enchufe
-Le das a nueva conexiÃ³n
-Y apartir de ahi buscas la ruta del archivo de mysqlite
+Una vez dentro, debajo de Archivo, selecciona un icono de un enchufe. Luego, crea una nueva conexión y busca la ruta del archivo de MySQLite.

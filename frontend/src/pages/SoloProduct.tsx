@@ -57,11 +57,9 @@ const SoloProduct = () => {
                             </svg>
                         </button>
                     </section>
-
                     <img className="w-full"
                         src={`${import.meta.env.VITE_BACKEND_URL}${data.image}`}
                         alt={data.name} />
-
                 </section>
                 <section className="mx-auto py-8 p-4 bg-white shadow-lg rounded-lg dark:bg-slate-900">
                     <Reviews productId={data.id} productName={data.name} reviews={data.reviews} />
