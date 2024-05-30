@@ -51,7 +51,7 @@ export const edit_product = async (data: Product) => {
 
 // Funcion para obtener un producto mediante el slug
 export const get_solo = async (slug: string) => {
-    const response = await authAxios.get(`/products/get/${slug}/`)
+    const response = await axio.get(`/products/get/${slug}/`)
     return response.data
 }
 

@@ -76,12 +76,13 @@ const Header = () => {
                             </section>
                             <section className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <section className="flex flex-shrink-0 items-center">
-
-                                    <img
-                                        className="hidden h-8 w-auto lg:block"
-                                        src={Logo}
-                                        alt="Logo"
-                                    />
+                                    <Link to="/">
+                                        <img
+                                            className="hidden h-8 w-auto lg:block"
+                                            src={Logo}
+                                            alt="Logo"
+                                        />
+                                    </Link>
                                 </section>
                                 <section className="hidden sm:ml-6 sm:block">
                                     <section className="flex space-x-4">
@@ -102,6 +103,12 @@ const Header = () => {
                                             </>
                                         ) : (
                                             <>
+                                                <Link
+                                                    to={'/'}
+                                                    className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+                                                >
+                                                    Inicio
+                                                </Link>
                                                 <Link
                                                     to={'/login'}
                                                     className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
