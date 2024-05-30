@@ -182,12 +182,11 @@ const Reviews = ({ productId, reviews, productName }: Props) => {
                     <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
                         <p>{r.created.slice(0, 10)}</p>
                     </footer>
-                    <p className="mb-2 text-gray-500 dark:text-gray-400">
+                    <p className="pb-8 text-gray-500 dark:text-gray-400">
                         {r.description}
                     </p>
                 </article>
             ))}
-
         </>
     );
 

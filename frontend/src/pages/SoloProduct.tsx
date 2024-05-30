@@ -63,7 +63,7 @@ const SoloProduct = () => {
                         alt={data.name} />
 
                 </section>
-                <section>
+                <section className="mx-auto py-8 p-4 bg-white shadow-lg rounded-lg dark:bg-slate-900">
                     <Reviews productId={data.id} productName={data.name} reviews={data.reviews} />
                 </section>
             </section>
