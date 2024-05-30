@@ -69,3 +69,6 @@ python manage.py createsuperuser
 Para ver los datos de la base de datos, instala Dbeaver (yo uso la versión portable): [Descarga DBeaver](https://dbeaver.io/download/)
 
 Una vez dentro, debajo de Archivo, selecciona un icono de un enchufe. Luego, crea una nueva conexión y busca la ruta del archivo de MySQLite.
+
+### Pagos Paypal
+Para poder pagar con Paypal, y que se cree correctamente el pedido, Debes meter las credenciales que hay en el archivo paypal.txt.
