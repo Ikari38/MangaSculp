@@ -8,7 +8,7 @@ export const create_review = async (description: string, rating: number, product
 
 // Funcion para buscar productos
 export const search_product = async (query: string) => {
-    const response = await authAxios.get(`/products/search/?query=${query}`);
+    const response = await axio.get(`/products/search/?query=${query}`);
     return response.data;
 }
 
