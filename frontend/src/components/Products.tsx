@@ -65,8 +65,18 @@ const Products = ({ results }: Props) => {
 
     return (
         <section className="overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-
+            <section className="flex justify-center">
+                <Link to="/admin/add" className="w-1/6 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-md font-bold transition duration-300 ease-in-out 
+                    bg-green-500 dark:bg-green-700 
+                    text-white hover:bg-green-600 dark:hover:bg-green-800 
+                    focus:outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800">
+                    Agregar Producto
+                    <FaPlusSquare size={22} className="text-white cursor-pointer" />
+                </Link>
+            </section>
+            <table className="w-full text-sm text-left mt-4 text-gray-500 dark:text-gray-400">
+                <caption>
+                </caption>
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="px-4 py-3">ID Producto</th>
@@ -107,19 +117,6 @@ const Products = ({ results }: Props) => {
                 ) : (
                     <>
                         <tbody>
-                            <tr className="border-b dark:border-gray-700">
-                                <td className="px-4 py-3"></td>
-                                <td className="px-4 py-3"></td>
-                                <td className="px-4 py-3 flex items-center justify-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white " >
-                                    <Link to="/admin/add" className="flex  justify-center gap-4">
-                                        Agregar Producto
-                                        <FaPlusSquare size={22} className="text-green-500 cursor-pointer" />
-                                    </Link>
-                                </td>
-                                <td className="px-4 py-3"></td>
-                                <td className="px-4 py-3"></td>
-                            </tr>
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {data?.pages.map((page: any) => (
                                 <React.Fragment key={page.meta.next}>
                                     {page.data.map((product: Product) => (

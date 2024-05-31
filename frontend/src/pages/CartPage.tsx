@@ -92,7 +92,7 @@ const CartPage = () => {
 
     // Envia los datos del formulario al servidor para crear un pedido, validando los campos necesarios.
     const handleSubmit = (currentAddress: string, currentCity: string, currentPostalCode: string) => {
-        if (!validateForm(currentAddress,currentCity,currentPostalCode)) {
+        if (!validateForm(currentAddress, currentCity, currentPostalCode)) {
             return;
         }
         createOrderMutation.mutate({
@@ -145,8 +145,6 @@ const CartPage = () => {
             <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
                 <section className="mx-auto max-w-screen-xl px-4 lg:px-12">
                     <section className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-
-
                         <section className="relative mt-5 overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                             <section className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                                 <section className="flex items-center flex-1 space-x-4">
@@ -172,10 +170,8 @@ const CartPage = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-
-
-                                        {cart.map(product => (
-                                            <>
+                                        <>
+                                            {cart.map(product => (
 
                                                 <tr key={product.id} className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                                                     <th scope="row" className="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -209,21 +205,14 @@ const CartPage = () => {
                                                         </section>
                                                     </td>
                                                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{product.price} &euro;</td>
-
                                                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{product.quantity !== undefined ? product.price * product.quantity : 0} &euro;</td>
-
                                                 </tr>
-
-                                            </>
-                                        ))}
-
+                                            ))}
+                                        </>
                                     </tbody>
                                 </table>
                             </section>
                         </section>
-
-
-
                     </section>
                 </section>
                 <section className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -233,7 +222,6 @@ const CartPage = () => {
                     <form className="space-y-4 md:space-y-6"
                         onSubmit={(e) => { e.preventDefault(), handleSubmit(addressRef.current, cityRef.current, postalCodeRef.current) }}
                     >
-
                         <section>
                             <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
                             <input
@@ -241,7 +229,6 @@ const CartPage = () => {
                                 onChange={handleAddressChange}
                                 type="text" name="address" id="address" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Domicilio" />
                         </section>
-
                         <section>
                             <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ciudad</label>
                             <input

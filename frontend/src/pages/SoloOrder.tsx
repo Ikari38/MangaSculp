@@ -24,14 +24,14 @@ const SoloOrder = () => {
     // Maneja estado de carga y error de la consulta
     if (isError) return toast.error("Error!");
     if (isLoading) return <Loader />;
-
+    
     return (
         <section className="overflow-x-auto container mx-auto px-4 pt-11">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="px-4 py-3">
-                            Precio total
+                            Coste total
                         </th>
                         <th scope="col" className="px-4 py-3">
                             Entregado
@@ -73,7 +73,7 @@ const SoloOrder = () => {
                         </th>
 
                         <td className="px-4 py-3">
-                        {data.is_delivered !== null && data.is_delivered === false ? (
+                        {data.is_delivered == null || data.is_delivered === false ? (
                                 <p>No entregado</p>
                             ) : (
                                 <p>Entregado</p>
@@ -138,7 +138,7 @@ const SoloOrder = () => {
                         </th>
 
                         <th scope="col" className="px-4 py-3">
-                            Precio
+                            Coste
                         </th>
                     </tr>
                 </thead>
@@ -160,7 +160,7 @@ const SoloOrder = () => {
                             </td>
 
                             <td className="px-4 py-3">
-                                {p.price} &euro;
+                                {p.price * p.quantity} &euro;
                             </td>
                         </tr>
                     ))}

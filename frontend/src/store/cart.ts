@@ -63,6 +63,7 @@ export const useCartStore = create(persist<State & Actions>((set, get) => ({
                 cart: updatedCart,
                 totalPrice: state.totalPrice + Number(product.price)
             }))
+            toast.success("Se ha agregado el producto al carrito")
             //Si no esta en el carrito Sumamos el producto
         } else {
             const updatedCart = [...cart, { ...product, quantity: 1 }]
@@ -71,6 +72,7 @@ export const useCartStore = create(persist<State & Actions>((set, get) => ({
                 cart: updatedCart,
                 totalPrice: state.totalPrice + Number(product.price)
             }))
+            toast.success("Se ha agregado el producto al carrito")
         }
     },
 

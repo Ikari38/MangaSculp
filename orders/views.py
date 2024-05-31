@@ -110,7 +110,7 @@ def my_orders(request):
 @permission_classes([IsAdminUser])
 def delivered(request, pk):
     order = Order.objects.get(pk=pk)
-    order.is_delireved = True
+    order.is_delivered = True
     order.delivered_at = datetime.now()
     order.save()
     return Response('Pedido entregado.')

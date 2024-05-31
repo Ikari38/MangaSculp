@@ -6,8 +6,12 @@
 Necesitamos **git**, **python** y **node.js**.
 
 #### Versiones utilizadas
-- **Python**: 3.12.3
-- **Node.js**: v20.12.2
+- **Python**: 3.12.3 [Descargar Python](https://www.python.org/downloads/release/python-3122/)
+- **Node.js**: v20.12.2 [Descargar Node.js](https://nodejs.org/en/blog/release/v20.12.2)
+
+#### Versiones compatibles
+- **Python**: 3.10.0
+- **Node.js**: v16.13.2
 
 #### Corrección de errores en Windows
 Si por algún casual no puedes ejecutar scripts de Python en Windows, entra a una PowerShell con permisos de administrador y ejecuta los siguientes comandos:
@@ -28,16 +32,19 @@ Si por algún casual no puedes ejecutar scripts de Python en Windows, entra a una
 ### Arrancar el backend
 ```bash
 git clone https://github.com/Ikari38/MangaSculp.git
-cd MangaSculp\MangaSculp
+cd MangaSculp
 python -m venv env
 ```
-# En Windows
+### En Windows
 ```bash
 .\env\Scripts\activate
 ```
-# En Linux
+### En Linux
 ```bash
 source env/bin/activate
+```
+### Instalar dependencias del backend y arrancarlo
+```bash
 pip install -r requirements.txt
 mkdir dist/static
 python manage.py runserver

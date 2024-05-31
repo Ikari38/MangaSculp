@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaTrashCan } from "react-icons/fa6";
 import { delete_user, get_users } from "../api/users";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -7,19 +8,20 @@ import { User } from "../Interfaces";
 import Loader from "./Loader";
 
 interface Props {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     results: any;
 }
 
 const Users = ({ results }: Props) => {
+    // Uso del hook useQueryClient para obtener el cliente de consultas.
     const queryClient = useQueryClient();
 
+    // Uso del hook useQuery para obtener datos de usuarios, gestionando los estados de carga y error.
     const { data, isError, isLoading } = useQuery({
         queryKey: [`users`],
         queryFn: get_users,
     })
 
-
+    // Uso del hook useMutation para gestionar la eliminación de usuarios.
     const deleteUserMutation = useMutation({
         mutationFn: delete_user,
         onSuccess: () => {
@@ -32,17 +34,16 @@ const Users = ({ results }: Props) => {
         },
     });
 
-
+    // Uso del hook useEffect para obtener los datos de los usuarios.
     useEffect(() => {
         if (isError) {
             toast.error("Error!");
         }
     }, [isError]);
 
-
+    // Manejador de errores y cargas de las promesas
     if (isError) return toast.error("Error!")
     if (isLoading) return <Loader />;
-
 
     return (
         <section className="overflow-x-auto">
@@ -60,15 +61,14 @@ const Users = ({ results }: Props) => {
                 {results && results.users.length > 0 ? (
                     <tbody>
                         {results && results.users.map((user: User) => (
-                            <tr className="border-b dark:border-gray-700">
+                            <tr key={user.id} className="border-b dark:border-gray-700">
                                 <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.id}</th>
                                 <td className="px-4 py-3">{user.email}</td>
                                 <td className="px-4 py-3">{user.name}</td>
                                 <td className="px-4 py-3">{user.last_name}</td>
                                 <td className="px-4 py-3 flex items-center justify-center gap-4">
                                     <FaTrashCan
-                                        onClick={() =>
-                                            user.id && deleteUserMutation.mutate(user.id)}
+                                        onClick={() => user.id && deleteUserMutation.mutate(user.id)}
                                         size={22}
                                         className="text-red-500 cursor-pointer" />
                                 </td>
@@ -78,15 +78,14 @@ const Users = ({ results }: Props) => {
                 ) : (
                     <tbody>
                         {data && data.map((user: User) => (
-                            <tr className="border-b dark:border-gray-700">
+                            <tr key={user.id} className="border-b dark:border-gray-700">
                                 <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.id}</th>
                                 <td className="px-4 py-3">{user.email}</td>
                                 <td className="px-4 py-3">{user.name}</td>
                                 <td className="px-4 py-3">{user.last_name}</td>
                                 <td className="px-4 py-3 flex items-center justify-center gap-4">
                                     <FaTrashCan
-                                        onClick={() =>
-                                            user.id && deleteUserMutation.mutate(user.id)}
+                                        onClick={() => user.id && deleteUserMutation.mutate(user.id)}
                                         size={22}
                                         className="text-red-500 cursor-pointer" />
                                 </td>

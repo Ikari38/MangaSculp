@@ -12,8 +12,6 @@ function logOutFunc(){
 // Declaracion de la variable que es la ruta del backend
 const baseURL = import.meta.env.VITE_BACKEND_URL
 
-console.log(import.meta.env.VITE_BACKEND_URL)
-
 // Configuracion de axios para peticiones no autenticadas
 export const axio = axios.create({
     baseURL

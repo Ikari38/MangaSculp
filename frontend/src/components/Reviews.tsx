@@ -56,7 +56,7 @@ const Reviews = ({ productId, reviews, productName }: Props) => {
 
     // Funcion para validar la descripcion
     const validateDescription = (desc: string) => {
-        const regex = /^[a-zA-Z0-9\s.,!?']{1,200}$/;
+        const regex = /^[a-zA-ZÀ-ÿ0-9\u00f1\u00d1\s.,!?']{1,200}$/;
         return regex.test(desc);
     }
 
@@ -165,7 +165,7 @@ const Reviews = ({ productId, reviews, productName }: Props) => {
             </section>
 
             {reviews && reviews.map((r: any) => (
-                <article className="container mx-auto ">
+                <article key={r.id} className="container mx-auto ">
                     <section className="flex items-center mb-4 space-x-4">
                         <img
                             className="w-10 h-10 rounded-full"
@@ -179,9 +179,9 @@ const Reviews = ({ productId, reviews, productName }: Props) => {
 
                     <Rating value={r.rating} />
 
-                    <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
+                    <section className="mb-5 text-sm text-gray-500 dark:text-gray-400">
                         <p>{r.created.slice(0, 10)}</p>
-                    </footer>
+                    </section>
                     <p className="pb-8 text-gray-500 dark:text-gray-400">
                         {r.description}
                     </p>

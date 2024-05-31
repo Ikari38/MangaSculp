@@ -14,7 +14,7 @@ const CategoryPage = () => {
                         />
                     </Link>
                     <section className="p-5">
-                        <Link to={`/cateory/figura`}>
+                        <Link to={`/category/figura`}>
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 Figuras
                             </h5>
