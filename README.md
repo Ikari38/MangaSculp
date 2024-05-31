@@ -6,12 +6,12 @@
 Necesitamos **git**, **python** y **node.js**.
 
 #### Versiones utilizadas
-- **Python**: 3.12.3 [Descargar Python](https://www.python.org/downloads/release/python-3122/)
+- **Python**: 3.12.3 [Descargar Python](https://www.python.org/downloads/release/python-3123/)
 - **Node.js**: v20.12.2 [Descargar Node.js](https://nodejs.org/en/blog/release/v20.12.2)
 
 #### Versiones compatibles
-- **Python**: 3.10.0
-- **Node.js**: v16.13.2
+- **Python**: 3.10.0 o superior (Almenos hasta le version que he utilizado)
+- **Node.js**: v16.13.2 o superior (Almenos hasta la version que he utilzado)
 
 #### Corrección de errores en Windows
 Si por algún casual no puedes ejecutar scripts de Python en Windows, entra a una PowerShell con permisos de administrador y ejecuta los siguientes comandos:
@@ -35,6 +35,7 @@ git clone https://github.com/Ikari38/MangaSculp.git
 cd MangaSculp
 python -m venv env
 ```
+Luego, para activar el entorno virtual el comando es distinto en windows y linux:
 ### En Windows
 ```bash
 .\env\Scripts\activate
@@ -46,7 +47,8 @@ source env/bin/activate
 ### Instalar dependencias del backend y arrancarlo
 ```bash
 pip install -r requirements.txt
-mkdir dist/static
+mkdir dist
+mkdir static
 python manage.py runserver
 ```
 
