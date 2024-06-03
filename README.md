@@ -1,6 +1,6 @@
 # MangaSculp
 
-## Proyecto de Aplicación Web
+## Proyecto de Aplicaciï¿½n Web
 
 ### Dependencias para arrancar el proyecto
 Necesitamos **git**, **python** y **node.js**.
@@ -13,10 +13,10 @@ Necesitamos **git**, **python** y **node.js**.
 - **Python**: 3.10.0 o superior (Almenos hasta le version que he utilizado)
 - **Node.js**: v16.13.2 o superior (Almenos hasta la version que he utilzado)
 
-#### Corrección de errores en Windows
-Si por algún casual no puedes ejecutar scripts de Python en Windows, entra a una PowerShell con permisos de administrador y ejecuta los siguientes comandos:
+#### Correcciï¿½n de errores en Windows
+Si por algï¿½n casual no puedes ejecutar scripts de Python en Windows, entra a una PowerShell con permisos de administrador y ejecuta los siguientes comandos:
 
-   Para abrir los scripts solo a modo local (más seguro, pero puede dar algún error):
+   Para abrir los scripts solo a modo local (mï¿½s seguro, pero puede dar algï¿½n error):
    ```powershell
    Set-ExecutionPolicy RemoteSigned
    ```
@@ -47,8 +47,17 @@ source env/bin/activate
 ### Instalar dependencias del backend y arrancarlo
 ```bash
 pip install -r requirements.txt
+mkdir dist/static
+```
+##### Si por lo que sea no te funciona asi para crear dist/static
+```bash
 mkdir dist
+cd dist
 mkdir static
+cd ../..
+```
+#### Arrancar el backend
+```bash
 python manage.py runserver
 ```
 
@@ -62,22 +71,22 @@ npm run dev
 
 Una vez que has arrancado todo, entra a la siguiente url: http://127.0.0.1:5173/
 
-### Inicio de Sesión
-Para iniciar sesión, puedes usar el siguiente usuario:
+### Inicio de Sesion
+Para iniciar sesion, puedes usar el siguiente usuario:
 
 Usuario: admin@admin.com
-Contraseña: admin
+ContraseÃ±a: admin
 
-O si la base de datos está vacía, puedes crearlo tú mismo ejecutando:
+O si la base de datos esta vacia, puedes crearlo tu mismo ejecutando:
 
 ```bash
 python manage.py createsuperuser
 ```
 
 ### Base de Datos
-Para ver los datos de la base de datos, instala Dbeaver (yo uso la versión portable): [Descarga DBeaver](https://dbeaver.io/download/)
+Para ver los datos de la base de datos, instala Dbeaver (yo uso la version portable): [Descarga DBeaver](https://dbeaver.io/download/)
 
-Una vez dentro, debajo de Archivo, selecciona un icono de un enchufe. Luego, crea una nueva conexión y busca la ruta del archivo de MySQLite.
+Una vez dentro, debajo de Archivo, selecciona un icono de un enchufe. Luego, crea una nueva conexiï¿½n y busca la ruta del archivo de MySQLite.
 
 ### Pagos Paypal
 Para poder pagar con Paypal, y que se cree correctamente el pedido, Debes meter las credenciales que hay en el archivo paypal.txt.
