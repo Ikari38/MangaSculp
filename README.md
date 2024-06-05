@@ -1,6 +1,6 @@
 # MangaSculp
 
-## Proyecto de Aplicaci�n Web
+## Proyecto de Aplicacion Web
 
 ### Dependencias para arrancar el proyecto
 Necesitamos **git**, **python** y **node.js**.
@@ -13,10 +13,10 @@ Necesitamos **git**, **python** y **node.js**.
 - **Python**: 3.10.0 o superior (Almenos hasta le version que he utilizado)
 - **Node.js**: v16.13.2 o superior (Almenos hasta la version que he utilzado)
 
-#### Correcci�n de errores en Windows
-Si por alg�n casual no puedes ejecutar scripts de Python en Windows, entra a una PowerShell con permisos de administrador y ejecuta los siguientes comandos:
+#### Correccion de errores en Windows
+Si por algun casual no puedes ejecutar scripts de Python en Windows, entra a una PowerShell con permisos de administrador y ejecuta los siguientes comandos:
 
-   Para abrir los scripts solo a modo local (m�s seguro, pero puede dar alg�n error):
+   Para abrir los scripts solo a modo local (mas seguro, pero puede dar algun error):
    ```powershell
    Set-ExecutionPolicy RemoteSigned
    ```
@@ -54,7 +54,7 @@ mkdir dist/static
 mkdir dist
 cd dist
 mkdir static
-cd ../..
+cd ..
 ```
 #### Arrancar el backend
 ```bash
@@ -86,7 +86,7 @@ python manage.py createsuperuser
 ### Base de Datos
 Para ver los datos de la base de datos, instala Dbeaver (yo uso la version portable): [Descarga DBeaver](https://dbeaver.io/download/)
 
-Una vez dentro, debajo de Archivo, selecciona un icono de un enchufe. Luego, crea una nueva conexi�n y busca la ruta del archivo de MySQLite.
+Una vez dentro, debajo de Archivo, selecciona un icono de un enchufe. Luego, crea una nueva conexion y busca la ruta del archivo de MySQLite.
 
 ### Pagos Paypal
 Para poder pagar con Paypal, y que se cree correctamente el pedido, Debes meter las credenciales que hay en el archivo paypal.txt.
