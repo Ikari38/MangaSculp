@@ -29,14 +29,14 @@ const ProductCard = ({ product, page }: Props) => {
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-200">
                                 {product.price}&euro;
                             </h5>
-                            <section className="flex items-center">
-                                <span className="flex items-center ml-1 text-gray-500 dark:text-gray-400">
-                                    <Rating value={product.rating !== undefined ? product.rating : 0} />
-                                    <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
-                                        {product.rating !== null ? product.rating : '0.00'}
-                                    </span>
+                        </section>
+                        <section className="flex items-center">
+                            <span className="flex items-center ml-1 text-gray-500 dark:text-gray-400">
+                                <Rating value={product.rating !== undefined ? product.rating : 0} />
+                                <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
+                                    {product.rating !== null ? product.rating : '0.00'}
                                 </span>
-                            </section>
+                            </span>
                         </section>
                     </Link>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
