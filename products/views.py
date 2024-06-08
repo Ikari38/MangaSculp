@@ -60,7 +60,7 @@ def edit_product(request, pk):
             name = serializer.validated_data['name']
             category = serializer.validated_data['category']
             if 'image' not in request.data:
-                serializer.validated_data.pop('iamge', None)
+                serializer.validated_data.pop('image', None)
             if name != product.name or category != product.category:
                 concatslug = name+category
                 slug = slugify(concatslug)
