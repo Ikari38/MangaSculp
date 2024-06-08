@@ -52,7 +52,7 @@ const HomePage = () => {
                     <section className="flex justify-center">
                         <section
                             key={page.meta.next}
-                            className="p-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-16"
+                            className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
                         >
                             {page.data.map((product: Product) => (
                                 <ProductCard
@@ -66,7 +66,7 @@ const HomePage = () => {
 
                     {!isLoading && data?.pages.length === 0 && (
                         <p key="no_results" className="text-xl text-slate-800 dark:text-slate-200">
-                            No hay mas resultados
+                            No hay más resultados
                         </p>
                     )}
                     {!isLoading &&
@@ -84,7 +84,5 @@ const HomePage = () => {
         </>
     );
 };
-
-
 
 export default HomePage;

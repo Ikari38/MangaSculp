@@ -3,10 +3,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
-from .models import Product
+from .models import Product, Reviews
 from .serializer import ProductSerializer, ReviewSerializer
 from backend.pagination import CustomPagination
 from django.utils.text import slugify
+from django.db.models import Avg
+
+
 # Create your views here.
 
 # Obtener todos los productos paginados
@@ -101,14 +104,19 @@ def get_product_by_category(request, category):
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
-# Crear una reseña para un producto (Necesitas autenticarte)
+# Crear una reseña para un producto y el rating (promedio de la) (Necesitas autenticarte)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_review(request, pk):
     serializer = ReviewSerializer(data=request.data)
-    product = Product.objects.get(pk=pk)
+    product = Product.objects.select_for_update().get(pk=pk)
     if serializer.is_valid():
         serializer.save(user=request.user, product=product)
+            # Recalcular el rating promedio del producto para añadirselo
+        reviews = Reviews.objects.filter(product=product)
+        avg_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+        product.rating = avg_rating
+        product.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
